@@ -5,7 +5,7 @@ import Browser.Events exposing (onResize)
 import Browser.Dom exposing (Viewport, getViewport)
 import Html exposing (..)
 import Task
-
+import List
 
 
 -- view model = svg [width "800", height "100"] []
@@ -39,6 +39,56 @@ update msg model =
 
 -- View
 
+
+background_color = "#333333ff"
+fretboard_color = "#321a0bff"
+fret_color = "#ccccccff"
+string_color = "#ffccaaff"
+interval_ratio = 1.059463
+
+singleFret : Float -> Float -> Svg Msg
+singleFret fretX fretHeight = rect 
+    [ width "5"
+    , height <| String.fromFloat fretHeight
+    , transform <| "translate(" ++ (String.fromFloat fretX) ++ ",0)"
+    , fill fret_color
+    ] 
+    []
+
+singleString : Float -> Float -> Int -> Svg Msg
+singleString svgWidth svgHeight nString = 
+    let 
+        stringDistance = svgHeight / 6.0
+        yPos = ((toFloat nString) - 0.5) * stringDistance
+    in rect 
+        [ height "2"
+        , width <| String.fromFloat svgWidth
+        , transform <| "translate(0," ++ (String.fromFloat yPos) ++ ")"
+        , fill string_color
+        ] []
+
+
+fretBoard : Float -> Float -> Int -> Html Msg
+fretBoard svgWidth svgHeight nFrets = 
+    let 
+        fret_distance = svgWidth / (toFloat (nFrets - 1))
+        fret_positions = List.map (\n -> (toFloat n) * fret_distance) <| List.range 0 (nFrets-1)
+    in
+    svg [ width <| String.fromFloat svgWidth 
+        , height <| String.fromFloat svgHeight
+        ] 
+        [ g [ id "fretBoard" ] 
+            [
+                rect 
+                    [ width <| String.fromFloat svgWidth
+                    , height <| String.fromFloat svgHeight
+                    , fill fretboard_color
+                    ] []
+            ]    
+        , g [] (List.map (\x -> singleFret x 300) fret_positions)
+        , g [] (List.map (\x -> singleString svgWidth svgHeight x) <| List.range 1 6 )
+        ]
+
 body : Model -> List (Html Msg)
 body m = 
     let 
@@ -47,26 +97,14 @@ body m =
                 Nothing -> 700.0
                 Just vp -> vp.viewport.width
         svgWidth = vpWidth * 0.8
-        background_color = "#333333ff"
-        fretboard_color = "#321a0bff"
-        fret_color = "#ccccccff"
-        string_color = "#ffccaaff"
-        interval_ratio = 1.059463
+        svgHeight = 200.0
     in
         [ div [] 
             [
-                svg [width <| String.fromFloat svgWidth, height "300"] [
-                g [] 
-                    [
-                        rect 
-                            [ width <| String.fromFloat svgWidth
-                            , height "300"
-                            , fill fretboard_color
-                            ] []
-                    ]    
-                ]
+                (fretBoard svgWidth svgHeight 22)
             ] 
         ]
+
 
 view : Model -> Browser.Document Msg
 view model = { title = "Banana for Scale" , body = body model }
