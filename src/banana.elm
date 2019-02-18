@@ -48,7 +48,7 @@ interval_ratio = 1.059463
 
 singleFret : Float -> Float -> Svg Msg
 singleFret fretX fretHeight = rect 
-    [ width "5"
+    [ width "3"
     , height <| String.fromFloat fretHeight
     , transform <| "translate(" ++ (String.fromFloat fretX) ++ ",0)"
     , fill fret_color
@@ -85,7 +85,7 @@ fretBoard svgWidth svgHeight nFrets =
                     , fill fretboard_color
                     ] []
             ]    
-        , g [] (List.map (\x -> singleFret x 300) fret_positions)
+        , g [] (List.map (\x -> singleFret x svgHeight) fret_positions)
         , g [] (List.map (\x -> singleString svgWidth svgHeight x) <| List.range 1 6 )
         ]
 
@@ -97,7 +97,7 @@ body m =
                 Nothing -> 700.0
                 Just vp -> vp.viewport.width
         svgWidth = vpWidth * 0.8
-        svgHeight = 200.0
+        svgHeight = 100.0
     in
         [ div [] 
             [
