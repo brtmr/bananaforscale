@@ -1,9 +1,10 @@
-module HeadStock exposing (headStock)
+module HeadStock exposing (headStock, headStockGroup)
 
 import Svg
 import Svg.Attributes
 
 
+headStock : Svg.Svg msg
 headStock =
     Svg.svg
         [ Svg.Attributes.id "svg8"
@@ -12,6 +13,14 @@ headStock =
         , Svg.Attributes.height "81.440521"
         , Svg.Attributes.width "148.94156"
         ]
+        [ headStockGroup
+        ]
+
+
+headStockGroup : Svg.Svg msg
+headStockGroup =
+    Svg.g
+        [ Svg.Attributes.transform "scale(3)" ]
         [ Svg.g
             [ Svg.Attributes.id "layer2" ]
             [ Svg.path

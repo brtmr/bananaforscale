@@ -3,7 +3,7 @@ module Main exposing (Flags, Model, Msg(..), background_color, body, fretBoard, 
 import Browser
 import Browser.Dom exposing (Viewport, getViewport)
 import Browser.Events exposing (onResize)
-import HeadStock exposing (headStock)
+import HeadStock exposing (headStockGroup)
 import Html exposing (..)
 import List
 import Svg exposing (..)
@@ -105,25 +105,28 @@ fretBoard : Float -> Float -> Int -> Html Msg
 fretBoard svgWidth svgHeight nFrets =
     let
         fret_distance =
-            svgWidth / toFloat (nFrets - 1)
+            (svgWidth - 445) / toFloat (nFrets - 1)
 
         fret_positions =
             List.map (\n -> toFloat n * fret_distance) <| List.range 0 (nFrets - 1)
     in
     svg
         [ width <| String.fromFloat svgWidth
-        , height <| String.fromFloat svgHeight
+        , height <| String.fromFloat (svgHeight + 200)
         ]
-        [ g [ id "fretBoard" ]
-            [ rect
-                [ width <| String.fromFloat svgWidth
-                , height <| String.fromFloat svgHeight
-                , fill fretboard_color
+        [ g [ transform "translate(445,87)" ]
+            [ g [ id "fretBoard" ]
+                [ rect
+                    [ width <| String.fromFloat svgWidth
+                    , height <| String.fromFloat svgHeight
+                    , fill fretboard_color
+                    ]
+                    []
                 ]
-                []
+            , g [] (List.map (\x -> singleFret x svgHeight) fret_positions)
+            , g [] (List.map (\x -> singleString (svgWidth - 445) svgHeight x) <| List.range 1 6)
             ]
-        , g [] (List.map (\x -> singleFret x svgHeight) fret_positions)
-        , g [] (List.map (\x -> singleString svgWidth svgHeight x) <| List.range 1 6)
+        , headStockGroup
         ]
 
 
@@ -139,14 +142,13 @@ body m =
                     vp.viewport.width
 
         svgWidth =
-            vpWidth * 0.8
+            vpWidth * 0.99
 
         svgHeight =
-            100.0
+            96.0
     in
     [ div []
-        [ headStock
-        , fretBoard svgWidth svgHeight 22
+        [ fretBoard svgWidth svgHeight 22
         ]
     ]
 
