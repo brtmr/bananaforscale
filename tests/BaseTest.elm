@@ -2,7 +2,9 @@ module BaseTest exposing (suite)
 
 import Expect exposing (Expectation)
 import Fuzz exposing (Fuzzer, int, list, string)
+import Maybe
 import Notes
+import Result
 import Test exposing (..)
 
 
@@ -24,6 +26,27 @@ suite =
                     Expect.equal (Notes.midiToPitch 15) 3
             , test "15 to Note Name" <|
                 \_ ->
-                    Expect.equal (Notes.midiToPitch 15 |> Notes.noteName) (Result.Ok ( "E♭", "D♯" ))
+                    Expect.equal (Notes.midiToPitch 15 |> Notes.noteName) (Just ( "E♭", "D♯" ))
+            ]
+        , describe "Note Names and Integers 0..11"
+            [ test "0 represents C" <|
+                \_ ->
+                    Expect.equal
+                        (Just 0)
+                        (Maybe.andThen Notes.noteNameToInt (Notes.toFullNoteName "C"))
+            , test
+                "11 represents B"
+              <|
+                \_ ->
+                    Expect.equal
+                        (Just 11)
+                        (Maybe.andThen Notes.noteNameToInt (Notes.toFullNoteName "B"))
+            , test
+                "C sharp and D flat are the same note"
+              <|
+                \_ ->
+                    Expect.equal
+                        (Maybe.Just ( Notes.sharp "C", Notes.flat "D" ))
+                        (Notes.toFullNoteName <| Notes.sharp "C")
             ]
         ]

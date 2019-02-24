@@ -1,7 +1,32 @@
-module Notes exposing (intervalName, midiToOctave, midiToPitch, noteName)
+module Notes exposing
+    ( flat
+    , intervalName
+    , midiToOctave
+    , midiToPitch
+    , noteName
+    , noteNameToInt
+    , sharp
+    , toFullNoteName
+    )
 
 import Dict exposing (..)
-import Result exposing (..)
+import Maybe
+
+
+
+-- We are going to use the unicode sharp and flat symbols. To avoid having
+-- to copy and paste them around, or dealing with escape sequences all over
+-- the code, the following two functions append them to any given string
+
+
+sharp : String -> String
+sharp s =
+    s ++ "♯"
+
+
+flat : String -> String
+flat s =
+    s ++ "♭"
 
 
 
@@ -14,7 +39,11 @@ import Result exposing (..)
 -- Strings.
 
 
-noteNames : Dict Int ( String, String )
+type alias NoteName =
+    ( String, String )
+
+
+noteNames : Dict Int NoteName
 noteNames =
     Dict.fromList
         [ ( 0, ( "C", "C" ) )
@@ -32,14 +61,55 @@ noteNames =
         ]
 
 
-noteName : Int -> Result String ( String, String )
-noteName n =
-    case Dict.get n noteNames of
-        Just name ->
-            Result.Ok name
 
-        Nothing ->
-            Result.Err "note is not in the Interval 0..11"
+-- we want to be able to easily get the tuple for every note String,
+-- so that we can generate the tuple "C♯", "D♭" from just one of its
+-- components.
+-- lets define a convience function, that given a condition will return
+-- the first item in a list that matches that condition.
+
+
+filterFirst : List a -> (a -> Bool) -> Maybe a
+filterFirst xs p =
+    case xs of
+        [] ->
+            Maybe.Nothing
+
+        first :: rest ->
+            if p first then
+                Maybe.Just first
+
+            else
+                filterFirst rest p
+
+
+toFullNoteName : String -> Maybe NoteName
+toFullNoteName s =
+    let
+        nameTuples =
+            Dict.values noteNames
+
+        matchAny =
+            \t -> (s == Tuple.first t) || (s == Tuple.second t)
+    in
+    filterFirst nameTuples matchAny
+
+
+noteName : Int -> Maybe NoteName
+noteName n =
+    Dict.get n noteNames
+
+
+noteNameToInt : NoteName -> Maybe Int
+noteNameToInt name =
+    let
+        namesAsList =
+            Dict.toList noteNames
+
+        matchValue =
+            \t -> name == Tuple.second t
+    in
+    Maybe.map Tuple.first (filterFirst namesAsList matchValue)
 
 
 
@@ -67,14 +137,9 @@ intervalNames =
         ]
 
 
-intervalName : Int -> Result String String
+intervalName : Int -> Maybe String
 intervalName n =
-    case Dict.get n intervalNames of
-        Just name ->
-            Result.Ok name
-
-        Nothing ->
-            Result.Err "not a named interval"
+    Dict.get n intervalNames
 
 
 
@@ -96,3 +161,7 @@ midiToOctave n =
 midiToPitch : Int -> Int
 midiToPitch n =
     modBy 12 n
+
+
+
+-- Let's make some scales!
