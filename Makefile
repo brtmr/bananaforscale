@@ -6,4 +6,4 @@ clean:
 
 banana:
 	cp -v static/index.html build/index.html
-	elm make src/banana.elm --output build/banana.js
+	elm make src/Banana.elm --output build/banana.js
