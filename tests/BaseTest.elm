@@ -48,5 +48,12 @@ suite =
                     Expect.equal
                         (Maybe.Just ( Notes.sharp "C", Notes.flat "D" ))
                         (Notes.toFullNoteName <| Notes.sharp "C")
+            , describe "Scales"
+                [ test "The major scale consists of exactly 12 semitones" <|
+                    \_ ->
+                        Expect.equal
+                            12
+                            (List.sum (List.map Notes.scaleStepAsSemitones Notes.majorScale))
+                ]
             ]
         ]

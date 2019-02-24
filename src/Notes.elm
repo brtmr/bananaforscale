@@ -1,10 +1,13 @@
 module Notes exposing
     ( flat
     , intervalName
+    , majorScale
     , midiToOctave
     , midiToPitch
+    , minorScale
     , noteName
     , noteNameToInt
+    , scaleStepAsSemitones
     , sharp
     , toFullNoteName
     )
@@ -165,3 +168,55 @@ midiToPitch n =
 
 
 -- Let's make some scales!
+-- First we need some types:
+
+
+type ScaleStep
+    = Half
+    | Whole
+    | WholeAndAHalf
+
+
+scaleStepAsSemitones : ScaleStep -> Int
+scaleStepAsSemitones step =
+    case step of
+        Half ->
+            1
+
+        Whole ->
+            2
+
+        WholeAndAHalf ->
+            3
+
+
+type alias Scale =
+    List ScaleStep
+
+
+
+-- Now we have everything in Place to define our scales as a number of steps
+
+
+majorScale : Scale
+majorScale =
+    [ Whole
+    , Whole
+    , Half
+    , Whole
+    , Whole
+    , Whole
+    , Half
+    ]
+
+
+minorScale : Scale
+minorScale =
+    [ Whole
+    , Half
+    , Whole
+    , Whole
+    , Half
+    , Whole
+    , Whole
+    ]
