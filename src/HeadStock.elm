@@ -17,6 +17,11 @@ headStock =
         ]
 
 
+{-| returns the drawing of the headstock as an svg group.
+This function was created by drawing it in inkscape, and then transformed
+to an svg graphic with the ./tools/elmifysvg.py python script, then
+hand-tuned
+-}
 headStockGroup : Svg.Svg msg
 headStockGroup =
     Svg.g
@@ -24,7 +29,7 @@ headStockGroup =
         [ Svg.g
             [ Svg.Attributes.id "layer2" ]
             [ Svg.path
-                [ Svg.Attributes.id "path1280"
+                [ Svg.Attributes.id "headstock_outline_path"
                 , Svg.Attributes.d "m 46.567831,107.19125 c -11.690027,0 -21.166666,9.47664 -21.166666,21.16667 0.007,10.98576 8.417345,20.14019 19.363158,21.07623 L 145.26413,181.2999 c 0,0 7.9375,-13.22916 26.45833,-13.22916 v -31.75 c 0,0 -24.94642,2.07887 -25.51339,-17.00893 -31.75,0 -67.090772,6.42559 -67.090772,6.42559 -4.466897,1.48897 -8.93359,-0.3736 -11.985831,-2.28719 -2.269924,-9.5233 -10.774561,-16.24729 -20.564636,-16.25896 z"
                 , Svg.Attributes.style "opacity:1;fill:#321a0bff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.35277778;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
                 , Svg.Attributes.transform "translate(-25.401165,-107.19125)"
@@ -38,7 +43,7 @@ headStockGroup =
             [ Svg.g
                 [ Svg.Attributes.style "fill:#cccccc;stroke:none"
                 , Svg.Attributes.transform "matrix(1.0477603,0.32758497,-0.32758497,1.0477603,188.30526,-78.615179)"
-                , Svg.Attributes.id "g3137"
+                , Svg.Attributes.id "tuners"
                 ]
                 [ Svg.g
                     [ Svg.Attributes.style "fill:#cccccc;stroke:none"
@@ -232,14 +237,14 @@ headStockGroup =
                 , Svg.Attributes.x "171.69855"
                 , Svg.Attributes.height "31.748343"
                 , Svg.Attributes.width "2.6441755"
-                , Svg.Attributes.id "rect819-2"
+                , Svg.Attributes.id "nut"
                 , Svg.Attributes.style "opacity:1;fill:#ffeeaa;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.05116901;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
                 ]
                 []
             , Svg.g
                 [ Svg.Attributes.style "opacity:0.08200001;fill:#ffffff"
                 , Svg.Attributes.transform "matrix(-0.3294696,0.18376882,0.18376882,0.3294696,-8.216856,51.091969)"
-                , Svg.Attributes.id "g1362-4"
+                , Svg.Attributes.id "horns-left"
                 ]
                 [ Svg.rect
                     [ Svg.Attributes.style "opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:3.10641384;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
@@ -280,7 +285,7 @@ headStockGroup =
             , Svg.g
                 [ Svg.Attributes.style "opacity:0.08200001;fill:#ffffff"
                 , Svg.Attributes.transform "matrix(0.32946959,0.18376882,-0.18376882,0.32946959,183.0853,61.458757)"
-                , Svg.Attributes.id "g1362-4-6"
+                , Svg.Attributes.id "horns-right"
                 ]
                 [ Svg.rect
                     [ Svg.Attributes.style "opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:3.10641384;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
