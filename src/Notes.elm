@@ -326,7 +326,7 @@ midiToPitch n =
 
 
 -- Finally, we want to express Midi notes in Scientific Pitch Notation,
--- which is the combination of the Name of the note plus a positive
+-- which is the combination of the Name of the note plus a
 -- integer representing the octave of the note.
 
 
