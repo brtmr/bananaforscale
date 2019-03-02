@@ -1,4 +1,4 @@
-module Notes exposing (Note(..), NoteName, SPN(..), Scale, ScaleStep(..), filterFirst, flat, intToNote, intervalName, majorScale, midiToOctave, midiToPitch, midiToSPN, minorScale, noteName, noteToInt, scaleStepAsSemitones, sharp, toNote)
+module Notes exposing (Note(..), NoteName, SPN(..), Scale, ScaleStep(..), filterFirst, flat, intToNote, intervalName, majorScale, makeScale, midiToOctave, midiToPitch, midiToSPN, minorScale, noteName, noteToInt, scaleStepAsSemitones, sharp, toNote)
 
 import Dict exposing (..)
 import Maybe
@@ -389,3 +389,22 @@ minorScale =
     , Whole
     , Whole
     ]
+
+
+makeStep : Note -> ScaleStep -> Note
+makeStep n s =
+    intToNote <| noteToInt n + scaleStepAsSemitones s
+
+
+makeScale : Note -> Scale -> List Note
+makeScale root scale =
+    case scale of
+        step :: rest ->
+            let
+                next =
+                    makeStep root step
+            in
+            root :: makeScale next rest
+
+        [] ->
+            []

@@ -3,6 +3,7 @@ module BaseTest exposing (suite)
 import Expect exposing (Expectation)
 import Fuzz exposing (Fuzzer, int, list, string)
 import Maybe
+import NeckNotes
 import Notes
 import Result
 import Test exposing (..)
@@ -44,12 +45,24 @@ suite =
                     Expect.equal
                         ( Notes.sharp "C", Notes.flat "D" )
                         (Notes.noteName <| Notes.toNote <| Notes.sharp "C")
-            , describe "Scales"
-                [ test "The major scale consists of exactly 12 semitones" <|
-                    \_ ->
-                        Expect.equal
-                            12
-                            (List.sum (List.map Notes.scaleStepAsSemitones Notes.majorScale))
-                ]
+            ]
+        , describe "Scales"
+            [ test "The major scale consists of exactly 12 semitones" <|
+                \_ ->
+                    Expect.equal
+                        12
+                        (List.sum (List.map Notes.scaleStepAsSemitones Notes.majorScale))
+            , test "C major scale" <|
+                \_ ->
+                    Expect.equal
+                        (Notes.makeScale Notes.C Notes.majorScale)
+                        [ Notes.C
+                        , Notes.D
+                        , Notes.E
+                        , Notes.F
+                        , Notes.G
+                        , Notes.A
+                        , Notes.B
+                        ]
             ]
         ]
