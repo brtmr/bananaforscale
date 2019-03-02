@@ -23,31 +23,27 @@ suite =
                     Expect.equal (Notes.midiToOctave 12) 0
             , test "15 to Pitch" <|
                 \_ ->
-                    Expect.equal (Notes.midiToPitch 15) 3
+                    Expect.equal (Notes.midiToPitch 15) Notes.DSharp
             , test "15 to Note Name" <|
                 \_ ->
-                    Expect.equal (Notes.midiToPitch 15 |> Notes.noteName) (Just ( "E♭", "D♯" ))
+                    Expect.equal (Notes.midiToPitch 15 |> Notes.noteName) ( "E♭", "D♯" )
             ]
         , describe "Note Names and Integers 0..11"
             [ test "0 represents C" <|
                 \_ ->
-                    Expect.equal
-                        (Just 0)
-                        (Maybe.andThen Notes.noteNameToInt (Notes.toFullNoteName "C"))
+                    Expect.equal 0 (Notes.noteToInt Notes.C)
             , test
                 "11 represents B"
               <|
                 \_ ->
-                    Expect.equal
-                        (Just 11)
-                        (Maybe.andThen Notes.noteNameToInt (Notes.toFullNoteName "B"))
+                    Expect.equal 11 (Notes.noteToInt Notes.B)
             , test
                 "C sharp and D flat are the same note"
               <|
                 \_ ->
                     Expect.equal
-                        (Maybe.Just ( Notes.sharp "C", Notes.flat "D" ))
-                        (Notes.toFullNoteName <| Notes.sharp "C")
+                        ( Notes.sharp "C", Notes.flat "D" )
+                        (Notes.noteName <| Notes.toNote <| Notes.sharp "C")
             , describe "Scales"
                 [ test "The major scale consists of exactly 12 semitones" <|
                     \_ ->
