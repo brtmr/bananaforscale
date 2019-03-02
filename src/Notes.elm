@@ -1,4 +1,4 @@
-module Notes exposing (Note(..), NoteName, SPN(..), Scale, ScaleStep(..), filterFirst, flat, intToNote, intervalName, majorScale, makeScale, midiToOctave, midiToPitch, midiToSPN, minorScale, noteName, noteToInt, scaleStepAsSemitones, sharp, toNote)
+module Notes exposing (Note(..), NoteName, SPN(..), Scale, ScaleStep(..), filterFirst, flat, intToNote, intervalName, majorScale, makeScale, makeStep, midiToOctave, midiToPitch, midiToSPN, minorScale, noteName, noteToInt, scaleStepAsSemitones, sharp, spnToMidi, toNote)
 
 import Dict exposing (..)
 import Maybe
@@ -302,12 +302,16 @@ intervalName i =
 
 -- to represent notes we will use MIDI integer representation
 -- https://en.wikipedia.org/wiki/Scientific_pitch_notation#Table_of_note_frequencies
--- 12 semi tones in an octave:
+-- we extend the midi numbering along the entire integer range
 
 
 midiToOctave : Int -> Int
 midiToOctave n =
-    (n // 12) - 1
+    if n >= 0 then
+        (n // 12) - 1
+
+    else
+        -((abs n - 1) // 12) - 2
 
 
 
@@ -333,6 +337,13 @@ type SPN
 midiToSPN : Int -> SPN
 midiToSPN n =
     SPN (midiToPitch n) (midiToOctave n)
+
+
+spnToMidi : SPN -> Int
+spnToMidi spn =
+    case spn of
+        SPN note octave ->
+            (12 * (octave + 1)) + noteToInt note
 
 
 
