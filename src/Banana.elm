@@ -5,10 +5,11 @@ import Browser.Dom exposing (Viewport, getViewport)
 import Browser.Events exposing (onResize)
 import Drawing exposing (fretBoard)
 import Html exposing (..)
+import Html.Attributes exposing (..)
+import Html.Events exposing (onClick, onInput)
 import List
 import Model exposing (..)
-import Svg exposing (..)
-import Svg.Attributes exposing (..)
+import Notes
 import Task
 
 
@@ -38,6 +39,31 @@ update msg model =
         WindowResize ->
             ( model, Task.perform ViewportChange getViewport )
 
+        NumFretsInc ->
+            if model.frets < 24 then
+                ( { model | frets = model.frets + 1 }, Cmd.none )
+
+            else
+                ( model, Cmd.none )
+
+        NumFretsDec ->
+            if model.frets > 5 then
+                ( { model | frets = model.frets - 1 }, Cmd.none )
+
+            else
+                ( model, Cmd.none )
+
+        ScaleSelected s ->
+            case s of
+                "major" ->
+                    ( { model | scale = Notes.majorScale }, Cmd.none )
+
+                "minor" ->
+                    ( { model | scale = Notes.minorScale }, Cmd.none )
+
+                _ ->
+                    ( { model | scale = Notes.majorScale }, Cmd.none )
+
 
 
 -- View
@@ -64,8 +90,27 @@ body m =
         [ Html.text "Banana for scale" ]
     , div
         [ id "settings" ]
-        [ select [ id "scale_select" ]
-            []
+        [ div
+            [ class "setting" ]
+            [ span
+                []
+                [ Html.text <| String.fromInt m.frets ++ " Frets" ]
+            , button [ onClick Model.NumFretsDec ]
+                [ Html.text "-" ]
+            , button
+                [ onClick Model.NumFretsInc ]
+                [ Html.text "+" ]
+            ]
+        , div
+            [ class "setting" ]
+            [ span
+                []
+                [ text "Scale:  " ]
+            , select [ id "scaleselect", onInput ScaleSelected ]
+                [ option [ value "major" ] [ text "Major" ]
+                , option [ value "minor" ] [ text "Minor" ]
+                ]
+            ]
         ]
     , div []
         [ fretBoard m
