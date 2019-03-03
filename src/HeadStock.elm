@@ -27,11 +27,17 @@ headStockGroup =
     Svg.g
         [ Svg.Attributes.transform "scale(3)" ]
         [ Svg.g
+            [ Svg.Attributes.transform "translate(-25.401165,-107.19125)"
+            , Svg.Attributes.id "layer3"
+            ]
+            [ tuners
+            ]
+        , Svg.g
             [ Svg.Attributes.id "layer2" ]
             [ Svg.path
                 [ Svg.Attributes.id "headstock_outline_path"
                 , Svg.Attributes.d "m 46.567831,107.19125 c -11.690027,0 -21.166666,9.47664 -21.166666,21.16667 0.007,10.98576 8.417345,20.14019 19.363158,21.07623 L 145.26413,181.2999 c 0,0 7.9375,-13.22916 26.45833,-13.22916 v -31.75 c 0,0 -24.94642,2.07887 -25.51339,-17.00893 -31.75,0 -67.090772,6.42559 -67.090772,6.42559 -4.466897,1.48897 -8.93359,-0.3736 -11.985831,-2.28719 -2.269924,-9.5233 -10.774561,-16.24729 -20.564636,-16.25896 z"
-                , Svg.Attributes.style "opacity:1;fill:#321a0bff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.35277778;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+                , Svg.Attributes.style "opacity:1;fill:#321a0bff;fill-opacity:1"
                 , Svg.Attributes.transform "translate(-25.401165,-107.19125)"
                 ]
                 []
@@ -40,139 +46,7 @@ headStockGroup =
             [ Svg.Attributes.transform "translate(-25.401165,-107.19125)"
             , Svg.Attributes.id "layer1"
             ]
-            [ Svg.g
-                [ Svg.Attributes.style "fill:#cccccc;stroke:none"
-                , Svg.Attributes.transform "matrix(1.0477603,0.32758497,-0.32758497,1.0477603,188.30526,-78.615179)"
-                , Svg.Attributes.id "tuners"
-                ]
-                [ Svg.g
-                    [ Svg.Attributes.style "fill:#cccccc;stroke:none"
-                    , Svg.Attributes.id "g3014"
-                    , Svg.Attributes.transform "translate(2.6458342,62.231463)"
-                    ]
-                    [ Svg.rect
-                        [ Svg.Attributes.y "155.70538"
-                        , Svg.Attributes.x "-62.032513"
-                        , Svg.Attributes.height "23.410456"
-                        , Svg.Attributes.width "2.3566883"
-                        , Svg.Attributes.id "rect3006"
-                        , Svg.Attributes.style "opacity:1;fill:#cccccc;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.35277778;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-                        ]
-                        []
-                    , Svg.path
-                        [ Svg.Attributes.id "path2988"
-                        , Svg.Attributes.d "m -60.854167,177.9375 c -2.941406,0 -5.882769,1.09093 -5.882769,1.09093 v 2.37492 0.89704 2.37534 c 0,0 2.941361,1.09051 5.882769,1.09051 2.941406,0 5.882768,-1.09051 5.882768,-1.09051 v -2.37534 -0.89704 -2.37492 c 0,0 -2.941362,-1.09093 -5.882768,-1.09093 z"
-                        , Svg.Attributes.style "fill:#cccccc;fill-rule:evenodd;stroke:none;stroke-width:0.35277778;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-                        ]
-                        []
-                    ]
-                , Svg.g
-                    [ Svg.Attributes.style "fill:#cccccc;stroke:none"
-                    , Svg.Attributes.id "g3014-1"
-                    , Svg.Attributes.transform "translate(18.520834,62.231463)"
-                    ]
-                    [ Svg.rect
-                        [ Svg.Attributes.y "155.70538"
-                        , Svg.Attributes.x "-62.032513"
-                        , Svg.Attributes.height "23.410456"
-                        , Svg.Attributes.width "2.3566883"
-                        , Svg.Attributes.id "rect3006-2"
-                        , Svg.Attributes.style "opacity:1;fill:#cccccc;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.35277778;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-                        ]
-                        []
-                    , Svg.path
-                        [ Svg.Attributes.id "path2988-1"
-                        , Svg.Attributes.d "m -60.854167,177.9375 c -2.941406,0 -5.882769,1.09093 -5.882769,1.09093 v 2.37492 0.89704 2.37534 c 0,0 2.941361,1.09051 5.882769,1.09051 2.941406,0 5.882768,-1.09051 5.882768,-1.09051 v -2.37534 -0.89704 -2.37492 c 0,0 -2.941362,-1.09093 -5.882768,-1.09093 z"
-                        , Svg.Attributes.style "fill:#cccccc;fill-rule:evenodd;stroke:none;stroke-width:0.35277778;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-                        ]
-                        []
-                    ]
-                , Svg.g
-                    [ Svg.Attributes.style "fill:#cccccc;stroke:none"
-                    , Svg.Attributes.id "g3014-5"
-                    , Svg.Attributes.transform "translate(34.540407,61.919617)"
-                    ]
-                    [ Svg.rect
-                        [ Svg.Attributes.y "155.70538"
-                        , Svg.Attributes.x "-62.032513"
-                        , Svg.Attributes.height "23.410456"
-                        , Svg.Attributes.width "2.3566883"
-                        , Svg.Attributes.id "rect3006-22"
-                        , Svg.Attributes.style "opacity:1;fill:#cccccc;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.35277778;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-                        ]
-                        []
-                    , Svg.path
-                        [ Svg.Attributes.id "path2988-4"
-                        , Svg.Attributes.d "m -60.854167,177.9375 c -2.941406,0 -5.882769,1.09093 -5.882769,1.09093 v 2.37492 0.89704 2.37534 c 0,0 2.941361,1.09051 5.882769,1.09051 2.941406,0 5.882768,-1.09051 5.882768,-1.09051 v -2.37534 -0.89704 -2.37492 c 0,0 -2.941362,-1.09093 -5.882768,-1.09093 z"
-                        , Svg.Attributes.style "fill:#cccccc;fill-rule:evenodd;stroke:none;stroke-width:0.35277778;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-                        ]
-                        []
-                    ]
-                , Svg.g
-                    [ Svg.Attributes.style "fill:#cccccc;stroke:none"
-                    , Svg.Attributes.id "g3014-1-3"
-                    , Svg.Attributes.transform "translate(50.415407,61.919617)"
-                    ]
-                    [ Svg.rect
-                        [ Svg.Attributes.y "155.70538"
-                        , Svg.Attributes.x "-62.032513"
-                        , Svg.Attributes.height "23.410456"
-                        , Svg.Attributes.width "2.3566883"
-                        , Svg.Attributes.id "rect3006-2-9"
-                        , Svg.Attributes.style "opacity:1;fill:#cccccc;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.35277778;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-                        ]
-                        []
-                    , Svg.path
-                        [ Svg.Attributes.id "path2988-1-6"
-                        , Svg.Attributes.d "m -60.854167,177.9375 c -2.941406,0 -5.882769,1.09093 -5.882769,1.09093 v 2.37492 0.89704 2.37534 c 0,0 2.941361,1.09051 5.882769,1.09051 2.941406,0 5.882768,-1.09051 5.882768,-1.09051 v -2.37534 -0.89704 -2.37492 c 0,0 -2.941362,-1.09093 -5.882768,-1.09093 z"
-                        , Svg.Attributes.style "fill:#cccccc;fill-rule:evenodd;stroke:none;stroke-width:0.35277778;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-                        ]
-                        []
-                    ]
-                , Svg.g
-                    [ Svg.Attributes.style "fill:#cccccc;stroke:none"
-                    , Svg.Attributes.id "g3014-4"
-                    , Svg.Attributes.transform "translate(66.145835,61.919617)"
-                    ]
-                    [ Svg.rect
-                        [ Svg.Attributes.y "155.70538"
-                        , Svg.Attributes.x "-62.032513"
-                        , Svg.Attributes.height "23.410456"
-                        , Svg.Attributes.width "2.3566883"
-                        , Svg.Attributes.id "rect3006-6"
-                        , Svg.Attributes.style "opacity:1;fill:#cccccc;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.35277778;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-                        ]
-                        []
-                    , Svg.path
-                        [ Svg.Attributes.id "path2988-7"
-                        , Svg.Attributes.d "m -60.854167,177.9375 c -2.941406,0 -5.882769,1.09093 -5.882769,1.09093 v 2.37492 0.89704 2.37534 c 0,0 2.941361,1.09051 5.882769,1.09051 2.941406,0 5.882768,-1.09051 5.882768,-1.09051 v -2.37534 -0.89704 -2.37492 c 0,0 -2.941362,-1.09093 -5.882768,-1.09093 z"
-                        , Svg.Attributes.style "fill:#cccccc;fill-rule:evenodd;stroke:none;stroke-width:0.35277778;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-                        ]
-                        []
-                    ]
-                , Svg.g
-                    [ Svg.Attributes.style "fill:#cccccc;stroke:none"
-                    , Svg.Attributes.id "g3014-1-4"
-                    , Svg.Attributes.transform "translate(82.020835,61.919617)"
-                    ]
-                    [ Svg.rect
-                        [ Svg.Attributes.y "155.70538"
-                        , Svg.Attributes.x "-62.032513"
-                        , Svg.Attributes.height "23.410456"
-                        , Svg.Attributes.width "2.3566883"
-                        , Svg.Attributes.id "rect3006-2-6"
-                        , Svg.Attributes.style "opacity:1;fill:#cccccc;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.35277778;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-                        ]
-                        []
-                    , Svg.path
-                        [ Svg.Attributes.id "path2988-1-2"
-                        , Svg.Attributes.d "m -60.854167,177.9375 c -2.941406,0 -5.882769,1.09093 -5.882769,1.09093 v 2.37492 0.89704 2.37534 c 0,0 2.941361,1.09051 5.882769,1.09051 2.941406,0 5.882768,-1.09051 5.882768,-1.09051 v -2.37534 -0.89704 -2.37492 c 0,0 -2.941362,-1.09093 -5.882768,-1.09093 z"
-                        , Svg.Attributes.style "fill:#cccccc;fill-rule:evenodd;stroke:none;stroke-width:0.35277778;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-                        ]
-                        []
-                    ]
-                ]
-            , Svg.circle
+            [ Svg.circle
                 [ Svg.Attributes.transform "rotate(17.616009)"
                 , Svg.Attributes.r "4.9836679"
                 , Svg.Attributes.cy "118.86698"
@@ -411,6 +285,142 @@ headStockGroup =
                 , Svg.Attributes.cx "161.81158"
                 , Svg.Attributes.id "path1285-9-6-6"
                 , Svg.Attributes.style "opacity:1;fill:#4d4d4d;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.33224452;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+                ]
+                []
+            ]
+        ]
+
+
+tuners : Svg.Svg msg
+tuners =
+    Svg.g
+        [ Svg.Attributes.style "fill:#cccccc;stroke:none"
+        , Svg.Attributes.transform "matrix(1.0477603,0.32758497,-0.32758497,1.0477603,188.30526,-78.615179)"
+        , Svg.Attributes.id "tuners"
+        ]
+        [ Svg.g
+            [ Svg.Attributes.style "fill:#cccccc;stroke:none"
+            , Svg.Attributes.id "tuningKey1"
+            , Svg.Attributes.transform "translate(2.6458342,62.231463)"
+            ]
+            [ Svg.rect
+                [ Svg.Attributes.y "155.70538"
+                , Svg.Attributes.x "-62.032513"
+                , Svg.Attributes.height "23.410456"
+                , Svg.Attributes.width "2.3566883"
+                , Svg.Attributes.id "rect3006"
+                , Svg.Attributes.style "opacity:1;fill:#cccccc;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.35277778;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+                ]
+                []
+            , Svg.path
+                [ Svg.Attributes.id "path2988"
+                , Svg.Attributes.d "m -60.854167,177.9375 c -2.941406,0 -5.882769,1.09093 -5.882769,1.09093 v 2.37492 0.89704 2.37534 c 0,0 2.941361,1.09051 5.882769,1.09051 2.941406,0 5.882768,-1.09051 5.882768,-1.09051 v -2.37534 -0.89704 -2.37492 c 0,0 -2.941362,-1.09093 -5.882768,-1.09093 z"
+                , Svg.Attributes.style "fill:#cccccc;fill-rule:evenodd;stroke:none;stroke-width:0.35277778;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+                ]
+                []
+            ]
+        , Svg.g
+            [ Svg.Attributes.style "fill:#cccccc;stroke:none"
+            , Svg.Attributes.id "tuningKey2"
+            , Svg.Attributes.transform "translate(18.520834,62.231463)"
+            ]
+            [ Svg.rect
+                [ Svg.Attributes.y "155.70538"
+                , Svg.Attributes.x "-62.032513"
+                , Svg.Attributes.height "23.410456"
+                , Svg.Attributes.width "2.3566883"
+                , Svg.Attributes.id "rect3006-2"
+                , Svg.Attributes.style "opacity:1;fill:#cccccc;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.35277778;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+                ]
+                []
+            , Svg.path
+                [ Svg.Attributes.id "path2988-1"
+                , Svg.Attributes.d "m -60.854167,177.9375 c -2.941406,0 -5.882769,1.09093 -5.882769,1.09093 v 2.37492 0.89704 2.37534 c 0,0 2.941361,1.09051 5.882769,1.09051 2.941406,0 5.882768,-1.09051 5.882768,-1.09051 v -2.37534 -0.89704 -2.37492 c 0,0 -2.941362,-1.09093 -5.882768,-1.09093 z"
+                , Svg.Attributes.style "fill:#cccccc;fill-rule:evenodd;stroke:none;stroke-width:0.35277778;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+                ]
+                []
+            ]
+        , Svg.g
+            [ Svg.Attributes.style "fill:#cccccc;stroke:none"
+            , Svg.Attributes.id "tuningKey3"
+            , Svg.Attributes.transform "translate(34.540407,61.919617)"
+            ]
+            [ Svg.rect
+                [ Svg.Attributes.y "155.70538"
+                , Svg.Attributes.x "-62.032513"
+                , Svg.Attributes.height "23.410456"
+                , Svg.Attributes.width "2.3566883"
+                , Svg.Attributes.id "rect3006-22"
+                , Svg.Attributes.style "opacity:1;fill:#cccccc;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.35277778;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+                ]
+                []
+            , Svg.path
+                [ Svg.Attributes.id "path2988-4"
+                , Svg.Attributes.d "m -60.854167,177.9375 c -2.941406,0 -5.882769,1.09093 -5.882769,1.09093 v 2.37492 0.89704 2.37534 c 0,0 2.941361,1.09051 5.882769,1.09051 2.941406,0 5.882768,-1.09051 5.882768,-1.09051 v -2.37534 -0.89704 -2.37492 c 0,0 -2.941362,-1.09093 -5.882768,-1.09093 z"
+                , Svg.Attributes.style "fill:#cccccc;fill-rule:evenodd;stroke:none;stroke-width:0.35277778;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+                ]
+                []
+            ]
+        , Svg.g
+            [ Svg.Attributes.style "fill:#cccccc;stroke:none"
+            , Svg.Attributes.id "tuningKey4"
+            , Svg.Attributes.transform "translate(50.415407,61.919617)"
+            ]
+            [ Svg.rect
+                [ Svg.Attributes.y "156.70538"
+                , Svg.Attributes.x "-62.032513"
+                , Svg.Attributes.height "23.410456"
+                , Svg.Attributes.width "2.3566883"
+                , Svg.Attributes.id "rect3006-2-9"
+                , Svg.Attributes.style "opacity:1;fill:#cccccc;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.35277778;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+                ]
+                []
+            , Svg.path
+                [ Svg.Attributes.id "path2988-1-6"
+                , Svg.Attributes.d "m -60.854167,177.9375 c -2.941406,0 -5.882769,1.09093 -5.882769,1.09093 v 2.37492 0.89704 2.37534 c 0,0 2.941361,1.09051 5.882769,1.09051 2.941406,0 5.882768,-1.09051 5.882768,-1.09051 v -2.37534 -0.89704 -2.37492 c 0,0 -2.941362,-1.09093 -5.882768,-1.09093 z"
+                , Svg.Attributes.style "fill:#cccccc;fill-rule:evenodd;stroke:none;stroke-width:0.35277778;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+                ]
+                []
+            ]
+        , Svg.g
+            [ Svg.Attributes.style "fill:#cccccc;stroke:none"
+            , Svg.Attributes.id "tuningKey5"
+            , Svg.Attributes.transform "translate(66.145835,61.919617)"
+            ]
+            [ Svg.rect
+                [ Svg.Attributes.y "155.70538"
+                , Svg.Attributes.x "-62.032513"
+                , Svg.Attributes.height "23.410456"
+                , Svg.Attributes.width "2.3566883"
+                , Svg.Attributes.id "rect3006-6"
+                , Svg.Attributes.style "opacity:1;fill:#cccccc;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.35277778;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+                ]
+                []
+            , Svg.path
+                [ Svg.Attributes.id "path2988-7"
+                , Svg.Attributes.d "m -60.854167,177.9375 c -2.941406,0 -5.882769,1.09093 -5.882769,1.09093 v 2.37492 0.89704 2.37534 c 0,0 2.941361,1.09051 5.882769,1.09051 2.941406,0 5.882768,-1.09051 5.882768,-1.09051 v -2.37534 -0.89704 -2.37492 c 0,0 -2.941362,-1.09093 -5.882768,-1.09093 z"
+                , Svg.Attributes.style "fill:#cccccc;fill-rule:evenodd;stroke:none;stroke-width:0.35277778;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+                ]
+                []
+            ]
+        , Svg.g
+            [ Svg.Attributes.style "fill:#cccccc;stroke:none"
+            , Svg.Attributes.id "tuningKey6"
+            , Svg.Attributes.transform "translate(82.020835,61.919617)"
+            ]
+            [ Svg.rect
+                [ Svg.Attributes.y "155.70538"
+                , Svg.Attributes.x "-62.032513"
+                , Svg.Attributes.height "23.410456"
+                , Svg.Attributes.width "2.3566883"
+                , Svg.Attributes.id "rect3006-2-6"
+                , Svg.Attributes.style "opacity:1;fill:#cccccc;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.35277778;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+                ]
+                []
+            , Svg.path
+                [ Svg.Attributes.id "path2988-1-2"
+                , Svg.Attributes.d "m -60.854167,177.9375 c -2.941406,0 -5.882769,1.09093 -5.882769,1.09093 v 2.37492 0.89704 2.37534 c 0,0 2.941361,1.09051 5.882769,1.09051 2.941406,0 5.882768,-1.09051 5.882768,-1.09051 v -2.37534 -0.89704 -2.37492 c 0,0 -2.941362,-1.09093 -5.882768,-1.09093 z"
+                , Svg.Attributes.style "fill:#cccccc;fill-rule:evenodd;stroke:none;stroke-width:0.35277778;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
                 ]
                 []
             ]
