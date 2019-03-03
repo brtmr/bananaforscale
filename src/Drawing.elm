@@ -153,8 +153,13 @@ fretBoard m =
                  , inlay fret_distance neck_height 5
                  , inlay fret_distance neck_height 7
                  , inlay fret_distance neck_height 9
+                 , inlay fret_distance neck_height 15
+                 , inlay fret_distance neck_height 17
+                 , inlay fret_distance neck_height 19
+                 , inlay fret_distance neck_height 21
                  ]
                     ++ double_inlay fret_distance neck_height 12
+                    ++ double_inlay fret_distance neck_height 24
                 )
             , g [ id "strings" ] (List.map (\x -> singleString (svgWidth - translate_x) neck_height x) <| List.range 1 6)
             ]
