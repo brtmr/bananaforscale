@@ -8,6 +8,8 @@ type alias Model =
     { viewport : Maybe Viewport
     , scale : Notes.Scale
     , drawHeadstock : Bool
+    , drawScalefactor : Float
+    , frets : Int
     }
 
 
@@ -16,6 +18,8 @@ startModel =
     { viewport = Nothing
     , scale = Notes.majorScale
     , drawHeadstock = True
+    , drawScalefactor = 2.5
+    , frets = 16
     }
 
 

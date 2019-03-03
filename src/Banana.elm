@@ -4,7 +4,6 @@ import Browser
 import Browser.Dom exposing (Viewport, getViewport)
 import Browser.Events exposing (onResize)
 import Drawing exposing (fretBoard)
-import HeadStock exposing (headStockGroup)
 import Html exposing (..)
 import List
 import Model exposing (..)
@@ -55,7 +54,7 @@ body m =
             vpWidth * 0.99
 
         svgHeight =
-            96.0
+            150.0
     in
     [ h1 []
         [ Html.text "Banana for scale" ]
@@ -65,7 +64,7 @@ body m =
             []
         ]
     , div []
-        [ fretBoard svgWidth svgHeight 16
+        [ fretBoard m
         ]
     ]
 

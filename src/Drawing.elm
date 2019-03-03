@@ -1,6 +1,6 @@
 module Drawing exposing (fretBoard, singleFret, singleString)
 
-import HeadStock exposing (headStockGroup)
+import HeadStock
 import Html exposing (..)
 import Model exposing (..)
 import Svg exposing (..)
@@ -48,7 +48,7 @@ singleString svgWidth svgHeight nString =
             (toFloat nString - 0.5) * stringDistance
     in
     rect
-        [ height "2"
+        [ height "1.5"
         , width <| String.fromFloat svgWidth
         , transform <| "translate(0," ++ String.fromFloat yPos ++ ")"
         , fill string_color
@@ -56,30 +56,53 @@ singleString svgWidth svgHeight nString =
         []
 
 
-fretBoard : Float -> Float -> Int -> Html Msg
-fretBoard svgWidth svgHeight nFrets =
+fretBoard : Model.Model -> Html Msg
+fretBoard m =
     let
+        svgWidth =
+            case m.viewport of
+                Nothing ->
+                    700.0
+
+                Just vp ->
+                    vp.viewport.width
+
+        svgHeight =
+            m.drawScalefactor * HeadStock.headstockHeightUnscaled
+
+        nFrets =
+            m.frets
+
+        translate_x =
+            m.drawScalefactor * HeadStock.nutXUnscaled
+
+        translate_y =
+            m.drawScalefactor * HeadStock.nutYUnscaled
+
         fret_distance =
-            (svgWidth - 445) / toFloat (nFrets - 1)
+            (svgWidth - translate_x) / toFloat (nFrets - 1)
 
         fret_positions =
             List.map (\n -> toFloat n * fret_distance) <| List.range 0 (nFrets - 1)
+
+        neck_height =
+            m.drawScalefactor * HeadStock.nutHeightUnscaled
     in
     svg
         [ width <| String.fromFloat svgWidth
-        , height <| String.fromFloat (svgHeight + 200)
+        , height <| String.fromFloat svgHeight
         ]
-        [ g [ transform "translate(445,87)" ]
+        [ g [ transform <| "translate(" ++ String.fromFloat translate_x ++ "," ++ String.fromFloat translate_y ++ ")" ]
             [ g [ id "fretBoard" ]
                 [ rect
                     [ width <| String.fromFloat svgWidth
-                    , height <| String.fromFloat svgHeight
+                    , height <| String.fromFloat neck_height
                     , fill fretboard_color
                     ]
                     []
                 ]
-            , g [] (List.map (\x -> singleFret x svgHeight) fret_positions)
-            , g [] (List.map (\x -> singleString (svgWidth - 445) svgHeight x) <| List.range 1 6)
+            , g [] (List.map (\x -> singleFret x neck_height) fret_positions)
+            , g [] (List.map (\x -> singleString (svgWidth - translate_x) neck_height x) <| List.range 1 6)
             ]
-        , headStockGroup
+        , HeadStock.headStockGroup m.drawScalefactor
         ]

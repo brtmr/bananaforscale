@@ -1,20 +1,23 @@
-module HeadStock exposing (headStock, headStockGroup)
+module HeadStock exposing (headStockGroup, headstockHeightUnscaled, nutHeightUnscaled, nutXUnscaled, nutYUnscaled, tuners)
 
 import Svg
 import Svg.Attributes
 
 
-headStock : Svg.Svg msg
-headStock =
-    Svg.svg
-        [ Svg.Attributes.id "svg8"
-        , Svg.Attributes.version "1.1"
-        , Svg.Attributes.viewBox "0 0 148.94156 81.440521"
-        , Svg.Attributes.height "81.440521"
-        , Svg.Attributes.width "148.94156"
-        ]
-        [ headStockGroup
-        ]
+nutYUnscaled =
+    136.29684 - 107.19125
+
+
+nutXUnscaled =
+    148.94156
+
+
+nutHeightUnscaled =
+    31.75
+
+
+headstockHeightUnscaled =
+    81.440521
 
 
 {-| returns the drawing of the headstock as an svg group.
@@ -22,10 +25,10 @@ This function was created by drawing it in inkscape, and then transformed
 to an svg graphic with the ./tools/elmifysvg.py python script, then
 hand-tuned
 -}
-headStockGroup : Svg.Svg msg
-headStockGroup =
+headStockGroup : Float -> Svg.Svg msg
+headStockGroup scale =
     Svg.g
-        [ Svg.Attributes.transform "scale(3)" ]
+        [ Svg.Attributes.transform <| "scale(" ++ String.fromFloat scale ++ ")" ]
         [ Svg.g
             [ Svg.Attributes.transform "translate(-25.401165,-107.19125)"
             , Svg.Attributes.id "layer3"
