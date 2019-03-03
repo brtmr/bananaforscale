@@ -104,7 +104,7 @@ fretBoard m =
                     700.0
 
                 Just vp ->
-                    vp.viewport.width
+                    vp.viewport.width - 20
 
         svgHeight =
             m.drawScalefactor * HeadStock.headstockHeightUnscaled
@@ -113,7 +113,11 @@ fretBoard m =
             m.frets
 
         translate_x =
-            m.drawScalefactor * HeadStock.nutXUnscaled
+            if m.drawHeadstock then
+                m.drawScalefactor * HeadStock.nutXUnscaled
+
+            else
+                10.0
 
         translate_y =
             m.drawScalefactor * HeadStock.nutYUnscaled
@@ -154,5 +158,9 @@ fretBoard m =
                 )
             , g [ id "strings" ] (List.map (\x -> singleString (svgWidth - translate_x) neck_height x) <| List.range 1 6)
             ]
-        , HeadStock.headStockGroup m.drawScalefactor
+        , if m.drawHeadstock then
+            HeadStock.headStockGroup m.drawScalefactor
+
+          else
+            Svg.g [] []
         ]

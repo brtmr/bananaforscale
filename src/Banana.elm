@@ -29,7 +29,11 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         ViewportChange newViewport ->
-            ( { model | viewport = Just newViewport }, Cmd.none )
+            if newViewport.viewport.width > 900 then
+                ( { model | viewport = Just newViewport, drawHeadstock = True }, Cmd.none )
+
+            else
+                ( { model | viewport = Just newViewport, drawHeadstock = False }, Cmd.none )
 
         WindowResize ->
             ( model, Task.perform ViewportChange getViewport )
