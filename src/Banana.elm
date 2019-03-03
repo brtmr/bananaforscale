@@ -3,11 +3,14 @@ module Main exposing (main)
 import Browser
 import Browser.Dom exposing (Viewport, getViewport)
 import Browser.Events exposing (onResize)
+import Debug
 import Drawing exposing (fretBoard)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, onInput)
+import Json.Decode exposing (decodeString, int)
 import List
+import List.Extra exposing (zip)
 import Model exposing (..)
 import Notes
 import Task
@@ -64,9 +67,73 @@ update msg model =
                 _ ->
                     ( { model | scale = Notes.majorScale }, Cmd.none )
 
+        RootSelected r ->
+            case decodeString int r of
+                Result.Ok n ->
+                    ( { model | root = Notes.intToNote n }, Cmd.none )
+
+                Result.Err _ ->
+                    ( model, Cmd.none )
+
 
 
 -- View
+
+
+scaleDisplay : Model -> List (Html Msg)
+scaleDisplay m =
+    let
+        notes =
+            Notes.makeScale m.root m.scale
+
+        names =
+            List.map Notes.noteName notes
+
+        shorten t =
+            if Tuple.first t == Tuple.second t then
+                Tuple.first t
+
+            else
+                Tuple.first t ++ "/" ++ Tuple.second t
+
+        shortnames =
+            List.map shorten names
+
+        numbered_shortnames =
+            zip (List.range 1 100) shortnames
+
+        toNote ( index, name ) =
+            div [ class <| "note" ++ String.fromInt index ] [ text name ]
+    in
+    List.map toNote numbered_shortnames
+
+
+noteOptions : List (Html Msg)
+noteOptions =
+    let
+        notes =
+            List.map Notes.intToNote (List.range 0 11)
+
+        names =
+            List.map Notes.noteName notes
+
+        shorten t =
+            if Tuple.first t == Tuple.second t then
+                Tuple.first t
+
+            else
+                Tuple.first t ++ "/" ++ Tuple.second t
+
+        shortnames =
+            List.map shorten names
+
+        numbered_shortnames =
+            zip (List.range 0 11) shortnames
+
+        toOption ( index, name ) =
+            option [ value <| String.fromInt index ] [ text name ]
+    in
+    List.map toOption numbered_shortnames
 
 
 body : Model -> List (Html Msg)
@@ -105,6 +172,13 @@ body m =
             [ class "setting" ]
             [ span
                 []
+                [ text "Root:  " ]
+            , select [ id "rootselect", onInput RootSelected ] noteOptions
+            ]
+        , div
+            [ class "setting" ]
+            [ span
+                []
                 [ text "Scale:  " ]
             , select [ id "scaleselect", onInput ScaleSelected ]
                 [ option [ value "major" ] [ text "Major" ]
@@ -112,6 +186,9 @@ body m =
                 ]
             ]
         ]
+    , div
+        [ id "scale" ]
+        (scaleDisplay m)
     , div []
         [ fretBoard m
         ]

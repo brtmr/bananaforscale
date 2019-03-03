@@ -23,5 +23,48 @@ body
     float: left
     margin-left: 10px
 
+#scale
+
+  clear: both
+  width: 100%
+  padding: 10px
+
+  %note
+      color: black
+      float: left
+      display: inline-box
+      width: 40px
+      padding: 10px
+      margin: 10px
+      text-align: center
+
+  .note1
+    @extend %note
+    background-color: #fbb4ae
+  .note2
+    @extend %note
+    background-color: #b3cde3
+  .note3
+    @extend %note
+    background-color: #ccebc5
+  .note4
+    @extend %note
+    background-color: #decbe4
+  .note5
+    @extend %note
+    background-color: #fed9a6
+  .note6
+    @extend %note
+    background-color: #ffffcc
+  .note7
+    @extend %note
+    background-color: #e5d8bd
+  .note8
+    @extend %note
+    background-color: #fddaec
+    
+
+
 svg
   margin-top: 40px
+  font-size: 2em

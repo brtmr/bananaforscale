@@ -20,7 +20,7 @@ startModel =
     , scale = Notes.majorScale
     , root = Notes.E
     , drawHeadstock = True
-    , drawScalefactor = 2.5
+    , drawScalefactor = 4
     , frets = 16
     }
 
@@ -31,6 +31,7 @@ type Msg
     | NumFretsInc
     | NumFretsDec
     | ScaleSelected String
+    | RootSelected String
 
 
 type alias Flags =
