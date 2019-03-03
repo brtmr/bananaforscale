@@ -19,7 +19,7 @@ import Task
 
 init : Flags -> ( Model, Cmd Msg )
 init _ =
-    ( Model Nothing, Task.perform ViewportChange getViewport )
+    ( startModel, Task.perform ViewportChange getViewport )
 
 
 
@@ -57,7 +57,13 @@ body m =
         svgHeight =
             96.0
     in
-    [ h1 [] [ Html.text "Banana for scale" ]
+    [ h1 []
+        [ Html.text "Banana for scale" ]
+    , div
+        [ id "settings" ]
+        [ select [ id "scale_select" ]
+            []
+        ]
     , div []
         [ fretBoard svgWidth svgHeight 16
         ]
