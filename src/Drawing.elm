@@ -8,23 +8,23 @@ import Svg exposing (..)
 import Svg.Attributes exposing (..)
 
 
-background_color =
+backgroundColor =
     "#333333ff"
 
 
-fretboard_color =
+fretboardColor =
     "#321a0bff"
 
 
-fret_color =
+fretColor =
     "#ccccccff"
 
 
-string_color =
+stringColor =
     "#ffccaaff"
 
 
-interval_ratio =
+intervalRatio =
     1.059463
 
 
@@ -36,7 +36,7 @@ singleFret fretX fretHeight fretNum =
         [ rect
             [ width "3"
             , height <| String.fromFloat fretHeight
-            , fill fret_color
+            , fill fretColor
             ]
             []
         , Svg.text_
@@ -60,36 +60,36 @@ singleString svgWidth svgHeight nString =
         [ height "1.5"
         , width <| String.fromFloat svgWidth
         , transform <| "translate(0," ++ String.fromFloat yPos ++ ")"
-        , fill string_color
+        , fill stringColor
         ]
         []
 
 
 inlay : Float -> Float -> Int -> Svg msg
-inlay fret_distance neck_height num_fret =
+inlay fretDistance neckHeight numFret =
     Svg.circle
-        [ Svg.Attributes.r <| String.fromFloat (fret_distance * 0.1)
-        , Svg.Attributes.cx <| String.fromFloat (((num_fret |> toFloat) - 0.5) * fret_distance)
-        , Svg.Attributes.cy <| String.fromFloat (0.5 * neck_height)
-        , Svg.Attributes.fill fret_color
+        [ Svg.Attributes.r <| String.fromFloat (fretDistance * 0.1)
+        , Svg.Attributes.cx <| String.fromFloat (((numFret |> toFloat) - 0.5) * fretDistance)
+        , Svg.Attributes.cy <| String.fromFloat (0.5 * neckHeight)
+        , Svg.Attributes.fill fretColor
         ]
         []
 
 
-double_inlay : Float -> Float -> Int -> List (Svg msg)
-double_inlay fret_distance neck_height num_fret =
+doubleInlay : Float -> Float -> Int -> List (Svg msg)
+doubleInlay fretDistance neckHeight numFret =
     [ Svg.circle
-        [ Svg.Attributes.r <| String.fromFloat (fret_distance * 0.1)
-        , Svg.Attributes.cx <| String.fromFloat (((num_fret |> toFloat) - 0.5) * fret_distance)
-        , Svg.Attributes.cy <| String.fromFloat (0.25 * neck_height)
-        , Svg.Attributes.fill fret_color
+        [ Svg.Attributes.r <| String.fromFloat (fretDistance * 0.1)
+        , Svg.Attributes.cx <| String.fromFloat (((numFret |> toFloat) - 0.5) * fretDistance)
+        , Svg.Attributes.cy <| String.fromFloat (0.25 * neckHeight)
+        , Svg.Attributes.fill fretColor
         ]
         []
     , Svg.circle
-        [ Svg.Attributes.r <| String.fromFloat (fret_distance * 0.1)
-        , Svg.Attributes.cx <| String.fromFloat (((num_fret |> toFloat) - 0.5) * fret_distance)
-        , Svg.Attributes.cy <| String.fromFloat (0.75 * neck_height)
-        , Svg.Attributes.fill fret_color
+        [ Svg.Attributes.r <| String.fromFloat (fretDistance * 0.1)
+        , Svg.Attributes.cx <| String.fromFloat (((numFret |> toFloat) - 0.5) * fretDistance)
+        , Svg.Attributes.cy <| String.fromFloat (0.75 * neckHeight)
+        , Svg.Attributes.fill fretColor
         ]
         []
     ]
@@ -112,61 +112,61 @@ fretBoard m =
         nFrets =
             m.frets
 
-        translate_x =
+        translateX =
             if m.drawHeadstock then
                 m.drawScalefactor * HeadStock.nutXUnscaled
 
             else
                 10.0
 
-        translate_y =
+        translateY =
             m.drawScalefactor * HeadStock.nutYUnscaled
 
-        fret_distance =
-            (svgWidth - translate_x) / toFloat (nFrets + 1)
+        fretDistance =
+            (svgWidth - translateX) / toFloat (nFrets + 1)
 
-        fret_positions =
-            List.map (\n -> toFloat n * fret_distance) <| List.range 0 nFrets
+        fretPositions =
+            List.map (\n -> toFloat n * fretDistance) <| List.range 0 nFrets
 
-        numbered_frets =
-            zip (List.range 0 nFrets) fret_positions
+        numberedFrets =
+            zip (List.range 0 nFrets) fretPositions
 
-        neck_height =
+        neckHeight =
             m.drawScalefactor * HeadStock.nutHeightUnscaled
 
-        translate_fretboard =
-            transform <| "translate(" ++ String.fromFloat translate_x ++ "," ++ String.fromFloat translate_y ++ ")"
+        translateFretboard =
+            transform <| "translate(" ++ String.fromFloat translateX ++ "," ++ String.fromFloat translateY ++ ")"
     in
     svg
         [ width <| String.fromFloat svgWidth
         , height <| String.fromFloat svgHeight
         ]
-        [ g [ translate_fretboard ]
+        [ g [ translateFretboard ]
             []
-        , g [ translate_fretboard ]
+        , g [ translateFretboard ]
             [ g [ id "fretBoard" ]
                 [ rect
                     [ width <| String.fromFloat svgWidth
-                    , height <| String.fromFloat neck_height
-                    , fill fretboard_color
+                    , height <| String.fromFloat neckHeight
+                    , fill fretboardColor
                     ]
                     []
                 ]
-            , g [ id "frets" ] (List.map (\( n, pos ) -> singleFret pos neck_height n) numbered_frets)
-            , g [ id "inlay_dots" ]
-                ([ inlay fret_distance neck_height 3
-                 , inlay fret_distance neck_height 5
-                 , inlay fret_distance neck_height 7
-                 , inlay fret_distance neck_height 9
-                 , inlay fret_distance neck_height 15
-                 , inlay fret_distance neck_height 17
-                 , inlay fret_distance neck_height 19
-                 , inlay fret_distance neck_height 21
+            , g [ id "frets" ] (List.map (\( n, pos ) -> singleFret pos neckHeight n) numberedFrets)
+            , g [ id "inlayDots" ]
+                ([ inlay fretDistance neckHeight 3
+                 , inlay fretDistance neckHeight 5
+                 , inlay fretDistance neckHeight 7
+                 , inlay fretDistance neckHeight 9
+                 , inlay fretDistance neckHeight 15
+                 , inlay fretDistance neckHeight 17
+                 , inlay fretDistance neckHeight 19
+                 , inlay fretDistance neckHeight 21
                  ]
-                    ++ double_inlay fret_distance neck_height 12
-                    ++ double_inlay fret_distance neck_height 24
+                    ++ doubleInlay fretDistance neckHeight 12
+                    ++ doubleInlay fretDistance neckHeight 24
                 )
-            , g [ id "strings" ] (List.map (\x -> singleString (svgWidth - translate_x) neck_height x) <| List.range 1 6)
+            , g [ id "strings" ] (List.map (\x -> singleString (svgWidth - translateX) neckHeight x) <| List.range 1 6)
             ]
         , if m.drawHeadstock then
             HeadStock.headStockGroup m.drawScalefactor

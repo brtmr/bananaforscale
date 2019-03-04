@@ -99,13 +99,13 @@ scaleDisplay m =
         shortnames =
             List.map shorten names
 
-        numbered_shortnames =
+        numberedShortnames =
             zip (List.range 1 100) shortnames
 
         toNote ( index, name ) =
             div [ class <| "note" ++ String.fromInt index ] [ text name ]
     in
-    List.map toNote numbered_shortnames
+    List.map toNote numberedShortnames
 
 
 noteOptions : List (Html Msg)
@@ -127,13 +127,13 @@ noteOptions =
         shortnames =
             List.map shorten names
 
-        numbered_shortnames =
+        numberedShortnames =
             zip (List.range 0 11) shortnames
 
         toOption ( index, name ) =
             option [ value <| String.fromInt index ] [ text name ]
     in
-    List.map toOption numbered_shortnames
+    List.map toOption numberedShortnames
 
 
 body : Model -> List (Html Msg)

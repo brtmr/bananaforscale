@@ -38,7 +38,7 @@ headStockGroup scale =
         , Svg.g
             [ Svg.Attributes.id "layer2" ]
             [ Svg.path
-                [ Svg.Attributes.id "headstock_outline_path"
+                [ Svg.Attributes.id "headstockOutlinePath"
                 , Svg.Attributes.d "m 46.567831,107.19125 c -11.690027,0 -21.166666,9.47664 -21.166666,21.16667 0.007,10.98576 8.417345,20.14019 19.363158,21.07623 L 145.26413,181.2999 c 0,0 7.9375,-13.22916 26.45833,-13.22916 v -31.75 c 0,0 -24.94642,2.07887 -25.51339,-17.00893 -31.75,0 -67.090772,6.42559 -67.090772,6.42559 -4.466897,1.48897 -8.93359,-0.3736 -11.985831,-2.28719 -2.269924,-9.5233 -10.774561,-16.24729 -20.564636,-16.25896 z"
                 , Svg.Attributes.style "opacity:1;fill:#321a0bff;fill-opacity:1"
                 , Svg.Attributes.transform "translate(-25.401165,-107.19125)"

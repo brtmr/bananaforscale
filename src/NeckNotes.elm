@@ -25,6 +25,6 @@ Taken from here:
 <https://en.wikipedia.org/wiki/Guitar_tunings>
 
 -}
-standard_tuning : Tuning
-standard_tuning =
+standardTuning : Tuning
+standardTuning =
     Tuning (SPN E 2) (SPN A 2) (SPN D 3) (SPN G 3) (SPN B 3) (SPN E 4)
