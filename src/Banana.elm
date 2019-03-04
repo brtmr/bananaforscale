@@ -154,7 +154,7 @@ body m =
             150.0
     in
     [ h1 []
-        [ Html.text "Banana for scale" ]
+        [ Html.text "Banana for Scale" ]
     , div
         [ id "settings" ]
         [ div
