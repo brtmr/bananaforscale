@@ -1,5 +1,6 @@
 module Drawing exposing (fretBoard, singleFret, singleString)
 
+import DrawingMath
 import HeadStock
 import Html exposing (..)
 import List.Extra exposing (zip)
@@ -98,75 +99,45 @@ doubleInlay fretDistance neckHeight numFret =
 fretBoard : Model.Model -> Html Msg
 fretBoard m =
     let
-        svgWidth =
-            case m.viewport of
-                Nothing ->
-                    700.0
-
-                Just vp ->
-                    vp.viewport.width - 20
-
-        svgHeight =
-            m.drawScalefactor * HeadStock.headstockHeightUnscaled
-
-        nFrets =
-            m.frets
-
-        translateX =
-            if m.drawHeadstock then
-                m.drawScalefactor * HeadStock.nutXUnscaled
-
-            else
-                10.0
-
-        translateY =
-            m.drawScalefactor * HeadStock.nutYUnscaled
-
-        fretDistance =
-            (svgWidth - translateX) / toFloat (nFrets + 1)
-
-        fretPositions =
-            List.map (\n -> toFloat n * fretDistance) <| List.range 0 nFrets
+        coos =
+            DrawingMath.calculate m
 
         numberedFrets =
-            zip (List.range 0 nFrets) fretPositions
-
-        neckHeight =
-            m.drawScalefactor * HeadStock.nutHeightUnscaled
+            zip (List.range 0 m.frets) coos.fretPositions
 
         translateFretboard =
-            transform <| "translate(" ++ String.fromFloat translateX ++ "," ++ String.fromFloat translateY ++ ")"
+            transform <| "translate(" ++ String.fromFloat coos.translateX ++ "," ++ String.fromFloat coos.translateY ++ ")"
     in
     svg
-        [ width <| String.fromFloat svgWidth
-        , height <| String.fromFloat svgHeight
+        [ width <| String.fromFloat coos.svgWidth
+        , height <| String.fromFloat coos.svgHeight
         ]
         [ g [ translateFretboard ]
             []
         , g [ translateFretboard ]
             [ g [ id "fretBoard" ]
                 [ rect
-                    [ width <| String.fromFloat svgWidth
-                    , height <| String.fromFloat neckHeight
+                    [ width <| String.fromFloat coos.svgWidth
+                    , height <| String.fromFloat coos.neckHeight
                     , fill fretboardColor
                     ]
                     []
                 ]
-            , g [ id "frets" ] (List.map (\( n, pos ) -> singleFret pos neckHeight n) numberedFrets)
+            , g [ id "frets" ] (List.map (\( n, pos ) -> singleFret pos coos.neckHeight n) numberedFrets)
             , g [ id "inlayDots" ]
-                ([ inlay fretDistance neckHeight 3
-                 , inlay fretDistance neckHeight 5
-                 , inlay fretDistance neckHeight 7
-                 , inlay fretDistance neckHeight 9
-                 , inlay fretDistance neckHeight 15
-                 , inlay fretDistance neckHeight 17
-                 , inlay fretDistance neckHeight 19
-                 , inlay fretDistance neckHeight 21
+                ([ inlay coos.fretDistance coos.neckHeight 3
+                 , inlay coos.fretDistance coos.neckHeight 5
+                 , inlay coos.fretDistance coos.neckHeight 7
+                 , inlay coos.fretDistance coos.neckHeight 9
+                 , inlay coos.fretDistance coos.neckHeight 15
+                 , inlay coos.fretDistance coos.neckHeight 17
+                 , inlay coos.fretDistance coos.neckHeight 19
+                 , inlay coos.fretDistance coos.neckHeight 21
                  ]
-                    ++ doubleInlay fretDistance neckHeight 12
-                    ++ doubleInlay fretDistance neckHeight 24
+                    ++ doubleInlay coos.fretDistance coos.neckHeight 12
+                    ++ doubleInlay coos.fretDistance coos.neckHeight 24
                 )
-            , g [ id "strings" ] (List.map (\x -> singleString (svgWidth - translateX) neckHeight x) <| List.range 1 6)
+            , g [ id "strings" ] (List.map (\x -> singleString (coos.svgWidth - coos.translateX) coos.neckHeight x) <| List.range 1 6)
             ]
         , if m.drawHeadstock then
             HeadStock.headStockGroup m.drawScalefactor
