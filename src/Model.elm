@@ -1,6 +1,7 @@
 module Model exposing (Flags, Model, Msg(..), startModel)
 
 import Browser.Dom exposing (Viewport)
+import NeckNotes
 import Notes
 
 
@@ -8,6 +9,7 @@ type alias Model =
     { viewport : Maybe Viewport
     , scale : Notes.Scale
     , root : Notes.Note
+    , tuning : NeckNotes.Tuning
     , drawHeadstock : Bool
     , drawScalefactor : Float
     , frets : Int
@@ -19,6 +21,7 @@ startModel =
     { viewport = Nothing
     , scale = Notes.majorScale
     , root = Notes.C
+    , tuning = NeckNotes.standardTuning
     , drawHeadstock = True
     , drawScalefactor = 4.5
     , frets = 16

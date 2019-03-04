@@ -1,10 +1,13 @@
 module Drawing exposing (fretBoard, singleFret, singleString)
 
+import Dict exposing (Dict)
 import DrawingMath
 import HeadStock
 import Html exposing (..)
 import List.Extra exposing (zip)
 import Model exposing (..)
+import NeckNotes
+import Notes
 import Svg exposing (..)
 import Svg.Attributes exposing (..)
 
@@ -27,6 +30,19 @@ stringColor =
 
 intervalRatio =
     1.059463
+
+
+noteColors : List String
+noteColors =
+    [ "#fbb4ae"
+    , "#b3cde3"
+    , "#ccebc5"
+    , "#decbe4"
+    , "#fed9a6"
+    , "#ffffcc"
+    , "#e5d8bd"
+    , "#fddaec"
+    ]
 
 
 singleFret : Float -> Float -> Int -> Svg msg
@@ -64,6 +80,62 @@ singleString svgWidth svgHeight nString =
         , fill stringColor
         ]
         []
+
+
+singleNote : Model -> Int -> Int -> String -> Svg msg
+singleNote model string fret fill =
+    let
+        coos =
+            DrawingMath.calculate model
+
+        stringDistance =
+            coos.neckHeight / 6.0
+
+        yPos =
+            (toFloat string - 0.5) * stringDistance
+
+        xPos =
+            (toFloat fret - 0.5) * coos.fretDistance
+    in
+    Svg.circle
+        [ Svg.Attributes.fill fill
+        , Svg.Attributes.cy <| String.fromFloat yPos
+        , Svg.Attributes.cx <| String.fromFloat xPos
+        , Svg.Attributes.r <| String.fromFloat <| stringDistance * 0.4
+        ]
+        []
+
+
+drawScale : Model -> List (Svg msg)
+drawScale model =
+    let
+        scale =
+            Notes.makeScale model.root model.scale
+
+        coloredNotes =
+            Dict.fromList <| zip (List.map Notes.noteToInt scale) noteColors
+
+        noteFill =
+            \n ->
+                case Dict.get (Notes.noteToInt n) coloredNotes of
+                    Just color ->
+                        color
+
+                    Nothing ->
+                        "none"
+
+        notes =
+            NeckNotes.notesOnString model.tuning model.frets
+
+        spnPitch spn =
+            case spn of
+                Notes.SPN pitch _ ->
+                    pitch
+
+        notesOnSingleString stringNotes string =
+            List.map (\( index, note ) -> singleNote model string index (noteFill <| spnPitch note)) <| zip (List.range 0 model.frets) stringNotes
+    in
+    List.concatMap (\( index, notes_ ) -> notesOnSingleString notes_ index) <| zip (List.range 1 6) notes
 
 
 inlay : Float -> Float -> Int -> Svg msg
@@ -113,8 +185,6 @@ fretBoard m =
         , height <| String.fromFloat coos.svgHeight
         ]
         [ g [ translateFretboard ]
-            []
-        , g [ translateFretboard ]
             [ g [ id "fretBoard" ]
                 [ rect
                     [ width <| String.fromFloat coos.svgWidth
@@ -144,4 +214,6 @@ fretBoard m =
 
           else
             Svg.g [] []
+        , g [ translateFretboard ]
+            (drawScale m)
         ]
