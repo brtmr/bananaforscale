@@ -28,7 +28,7 @@ calculate m =
                     700.0
 
                 Just vp ->
-                    vp.viewport.width - 20
+                    vp.viewport.width - 40
 
         svgHeight =
             m.drawScalefactor * HeadStock.headstockHeightUnscaled
@@ -72,7 +72,7 @@ setHeadStockDraw model =
             calculate intermediateModel
 
         newModel =
-            if Debug.log "d = " coos.fretDistance > 50 then
+            if Debug.log "d = " coos.fretDistance > 60 then
                 { intermediateModel | drawHeadstock = True }
 
             else
