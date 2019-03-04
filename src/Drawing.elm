@@ -133,12 +133,17 @@ fretBoard m =
 
         neck_height =
             m.drawScalefactor * HeadStock.nutHeightUnscaled
+
+        translate_fretboard =
+            transform <| "translate(" ++ String.fromFloat translate_x ++ "," ++ String.fromFloat translate_y ++ ")"
     in
     svg
         [ width <| String.fromFloat svgWidth
         , height <| String.fromFloat svgHeight
         ]
-        [ g [ transform <| "translate(" ++ String.fromFloat translate_x ++ "," ++ String.fromFloat translate_y ++ ")" ]
+        [ g [ translate_fretboard ]
+            []
+        , g [ translate_fretboard ]
             [ g [ id "fretBoard" ]
                 [ rect
                     [ width <| String.fromFloat svgWidth
