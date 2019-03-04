@@ -18,7 +18,7 @@ startModel : Model
 startModel =
     { viewport = Nothing
     , scale = Notes.majorScale
-    , root = Notes.E
+    , root = Notes.C
     , drawHeadstock = True
     , drawScalefactor = 4
     , frets = 16
