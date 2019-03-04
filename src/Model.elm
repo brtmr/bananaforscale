@@ -20,7 +20,7 @@ startModel =
     , scale = Notes.majorScale
     , root = Notes.C
     , drawHeadstock = True
-    , drawScalefactor = 4
+    , drawScalefactor = 4.5
     , frets = 16
     }
 

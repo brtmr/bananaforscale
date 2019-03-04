@@ -5,6 +5,7 @@ import Browser.Dom exposing (Viewport, getViewport)
 import Browser.Events exposing (onResize)
 import Debug
 import Drawing exposing (fretBoard)
+import DrawingMath
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, onInput)
@@ -33,28 +34,34 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         ViewportChange newViewport ->
-            if newViewport.viewport.width > 900 then
-                ( { model | viewport = Just newViewport, drawHeadstock = True }, Cmd.none )
+            let
+                intermediateModel =
+                    { model | viewport = Just newViewport, drawHeadstock = True }
 
-            else
-                ( { model | viewport = Just newViewport, drawHeadstock = False }, Cmd.none )
+                coos =
+                    DrawingMath.calculate intermediateModel
+
+                newModel =
+                    DrawingMath.setHeadStockDraw intermediateModel
+            in
+            ( newModel, Cmd.none )
 
         WindowResize ->
             ( model, Task.perform ViewportChange getViewport )
 
         NumFretsInc ->
             if model.frets < 24 then
-                ( { model | frets = model.frets + 1 }, Cmd.none )
+                ( DrawingMath.setHeadStockDraw { model | frets = model.frets + 1 }, Cmd.none )
 
             else
-                ( model, Cmd.none )
+                ( DrawingMath.setHeadStockDraw model, Cmd.none )
 
         NumFretsDec ->
             if model.frets > 5 then
-                ( { model | frets = model.frets - 1 }, Cmd.none )
+                ( DrawingMath.setHeadStockDraw { model | frets = model.frets - 1 }, Cmd.none )
 
             else
-                ( model, Cmd.none )
+                ( DrawingMath.setHeadStockDraw model, Cmd.none )
 
         ScaleSelected s ->
             case s of

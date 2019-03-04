@@ -1,4 +1,4 @@
-module DrawingMath exposing (SvgCoordinates, calculate)
+module DrawingMath exposing (SvgCoordinates, calculate, setHeadStockDraw)
 
 {-| Functions and types for calculating widths and ratios to dynamically scale
 and display the Svg in width, while being able to scale the headstock
@@ -60,3 +60,22 @@ calculate m =
     , fretPositions = fretPositions
     , neckHeight = neckHeight
     }
+
+
+setHeadStockDraw : Model -> Model
+setHeadStockDraw model =
+    let
+        intermediateModel =
+            { model | drawHeadstock = True }
+
+        coos =
+            calculate intermediateModel
+
+        newModel =
+            if Debug.log "d = " coos.fretDistance > 50 then
+                { intermediateModel | drawHeadstock = True }
+
+            else
+                { intermediateModel | drawHeadstock = False }
+    in
+    newModel
