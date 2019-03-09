@@ -5,8 +5,13 @@ body
   font-family: 'Roboto Slab', serif
   padding:20px
 
-
-
+$color1 : #e41a1c
+$color2 : #377eb8
+$color3 : #4daf4a
+$color4 : #984ea3
+$color5 : #ff7f00
+$color6 : #ffff33
+$color7 : #a65628
 
 #settings
   width: 100%
@@ -41,31 +46,58 @@ body
 
   .note1
     @extend %note
-    background-color: #fbb4ae
+    background-color: $color1
   .note2
     @extend %note
-    background-color: #b3cde3
+    background-color: $color2
   .note3
     @extend %note
-    background-color: #ccebc5
+    background-color: $color3
   .note4
     @extend %note
-    background-color: #decbe4
+    background-color: $color4
   .note5
     @extend %note
-    background-color: #fed9a6
+    background-color: $color5
   .note6
     @extend %note
-    background-color: #ffffcc
+    background-color: $color6
   .note7
     @extend %note
-    background-color: #e5d8bd
-  .note8
-    @extend %note
-    background-color: #fddaec
+    background-color: $color7
     
 
 
 svg
   margin-top: 40px
   font-size: 2em
+  .svg_note1
+    fill: $color1
+    stroke : white
+    stroke-width: 3
+  .svg_note2
+    fill: $color2
+    stroke : black
+    stroke-width: 3
+  .svg_note3
+    fill: $color3
+    stroke : black
+    stroke-width: 3
+  .svg_note4
+    fill: $color4
+    stroke : black
+    stroke-width: 3
+  .svg_note5
+    fill: $color5
+    stroke : black
+    stroke-width: 3
+  .svg_note6
+    fill: $color6
+    stroke : black
+    stroke-width: 3
+  .svg_note7
+    fill: $color7
+    stroke : black
+    stroke-width: 3
+  .svg_nonote
+    fill: none

@@ -32,16 +32,15 @@ intervalRatio =
     1.059463
 
 
-noteColors : List String
-noteColors =
-    [ "#fbb4ae"
-    , "#b3cde3"
-    , "#ccebc5"
-    , "#decbe4"
-    , "#fed9a6"
-    , "#ffffcc"
-    , "#e5d8bd"
-    , "#fddaec"
+noteClasses : List String
+noteClasses =
+    [ "svg_note1"
+    , "svg_note2"
+    , "svg_note3"
+    , "svg_note4"
+    , "svg_note5"
+    , "svg_note6"
+    , "svg_note7"
     ]
 
 
@@ -82,8 +81,8 @@ singleString svgWidth svgHeight nString =
         []
 
 
-singleNote : Model -> Int -> Int -> String -> String -> Svg msg
-singleNote model string fret fill stroke =
+singleNote : Model -> Int -> Int -> String -> Svg msg
+singleNote model string fret class =
     let
         coos =
             DrawingMath.calculate model
@@ -98,9 +97,7 @@ singleNote model string fret fill stroke =
             (toFloat fret - 0.5) * coos.fretDistance
     in
     Svg.circle
-        [ Svg.Attributes.fill fill
-        , Svg.Attributes.stroke stroke
-        , Svg.Attributes.strokeWidth "3"
+        [ Svg.Attributes.class class
         , Svg.Attributes.cy <| String.fromFloat yPos
         , Svg.Attributes.cx <| String.fromFloat xPos
         , Svg.Attributes.r <| String.fromFloat <| stringDistance * 0.4
@@ -114,24 +111,17 @@ drawScale model =
         scale =
             Notes.makeScale model.root model.scale
 
-        coloredNotes =
-            Dict.fromList <| zip (List.map Notes.noteToInt scale) noteColors
+        classes =
+            Dict.fromList <| zip (List.map Notes.noteToInt scale) noteClasses
 
         noteFill =
             \n ->
-                case Dict.get (Notes.noteToInt n) coloredNotes of
-                    Just color ->
-                        color
+                case Dict.get (Notes.noteToInt n) classes of
+                    Just class ->
+                        class
 
                     Nothing ->
-                        "none"
-
-        noteStroke note =
-            if spnPitch note == model.root then
-                "fuchsia"
-
-            else
-                "none"
+                        "svg_nonote"
 
         notes =
             NeckNotes.notesOnString model.tuning model.frets
@@ -142,7 +132,7 @@ drawScale model =
                     pitch
 
         notesOnSingleString stringNotes string =
-            List.map (\( index, note ) -> singleNote model string index (noteFill <| spnPitch note) (noteStroke note)) <| zip (List.range 0 model.frets) stringNotes
+            List.map (\( index, note ) -> singleNote model string index (noteFill <| spnPitch note)) <| zip (List.range 0 model.frets) stringNotes
     in
     List.concatMap (\( index, notes_ ) -> notesOnSingleString notes_ index) <| zip (List.range 1 6) notes
 
