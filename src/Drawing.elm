@@ -82,8 +82,8 @@ singleString svgWidth svgHeight nString =
         []
 
 
-singleNote : Model -> Int -> Int -> String -> Svg msg
-singleNote model string fret fill =
+singleNote : Model -> Int -> Int -> String -> String -> Svg msg
+singleNote model string fret fill stroke =
     let
         coos =
             DrawingMath.calculate model
@@ -99,6 +99,8 @@ singleNote model string fret fill =
     in
     Svg.circle
         [ Svg.Attributes.fill fill
+        , Svg.Attributes.stroke stroke
+        , Svg.Attributes.strokeWidth "3"
         , Svg.Attributes.cy <| String.fromFloat yPos
         , Svg.Attributes.cx <| String.fromFloat xPos
         , Svg.Attributes.r <| String.fromFloat <| stringDistance * 0.4
@@ -124,6 +126,13 @@ drawScale model =
                     Nothing ->
                         "none"
 
+        noteStroke note =
+            if spnPitch note == model.root then
+                "fuchsia"
+
+            else
+                "none"
+
         notes =
             NeckNotes.notesOnString model.tuning model.frets
 
@@ -133,7 +142,7 @@ drawScale model =
                     pitch
 
         notesOnSingleString stringNotes string =
-            List.map (\( index, note ) -> singleNote model string index (noteFill <| spnPitch note)) <| zip (List.range 0 model.frets) stringNotes
+            List.map (\( index, note ) -> singleNote model string index (noteFill <| spnPitch note) (noteStroke note)) <| zip (List.range 0 model.frets) stringNotes
     in
     List.concatMap (\( index, notes_ ) -> notesOnSingleString notes_ index) <| zip (List.range 1 6) notes
 
