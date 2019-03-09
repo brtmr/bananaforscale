@@ -92,7 +92,7 @@ singleNote model string fret fill =
             coos.neckHeight / 6.0
 
         yPos =
-            (toFloat string - 0.5) * stringDistance
+            (toFloat (6 - string) + 0.5) * stringDistance
 
         xPos =
             (toFloat fret - 0.5) * coos.fretDistance

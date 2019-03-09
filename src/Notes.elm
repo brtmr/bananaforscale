@@ -1,4 +1,4 @@
-module Notes exposing (Note(..), NoteName, SPN(..), Scale, ScaleStep(..), filterFirst, flat, intToNote, intervalName, majorScale, makeScale, makeStep, midiToOctave, midiToPitch, midiToSPN, minorScale, noteName, noteToInt, scaleStepAsSemitones, sharp, spnToMidi, toNote)
+module Notes exposing (Note(..), NoteName, SPN(..), Scale, ScaleStep(..), filterFirst, flat, intToNote, intervalName, majorScale, makeScale, makeStep, midiToOctave, midiToPitch, midiToSPN, minorPentatonicScale, minorScale, noteName, noteToInt, scaleStepAsSemitones, sharp, spnToMidi, toNote)
 
 import Dict exposing (..)
 import Maybe
@@ -398,6 +398,16 @@ minorScale =
     , Whole
     , Half
     , Whole
+    , Whole
+    ]
+
+
+minorPentatonicScale : Scale
+minorPentatonicScale =
+    [ WholeAndAHalf
+    , Whole
+    , Whole
+    , WholeAndAHalf
     , Whole
     ]
 
