@@ -1,5 +1,6 @@
-module BaseTest exposing (neckNotes, notes)
+module BaseTest exposing (drawing, neckNotes, notes)
 
+import Drawing
 import Expect exposing (Expectation)
 import Fuzz exposing (Fuzzer, int, intRange, list, string)
 import Maybe
@@ -7,6 +8,19 @@ import NeckNotes
 import Notes
 import Result
 import Test exposing (..)
+
+
+drawing : Test
+drawing =
+    describe "SVG drawing functions"
+        [ describe "mapping Notes to colors"
+            [ test "C is the first color" <|
+                \_ ->
+                    Expect.equal
+                        (Drawing.getNoteCssClass Notes.C)
+                        "svg_note1"
+            ]
+        ]
 
 
 neckNotes : Test

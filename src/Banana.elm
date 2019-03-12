@@ -90,6 +90,18 @@ update msg model =
 -- View
 
 
+getNoteCssClass : Notes.Note -> String
+getNoteCssClass n =
+    let
+        num =
+            Notes.noteToInt n + 1
+
+        numString =
+            String.fromInt num
+    in
+    "note" ++ numString
+
+
 scaleDisplay : Model -> List (Html Msg)
 scaleDisplay m =
     let
@@ -98,6 +110,9 @@ scaleDisplay m =
 
         names =
             List.map Notes.noteName notes
+
+        classes =
+            List.map getNoteCssClass notes
 
         shorten t =
             if Tuple.first t == Tuple.second t then
@@ -110,12 +125,12 @@ scaleDisplay m =
             List.map shorten names
 
         numberedShortnames =
-            zip (List.range 1 100) shortnames
+            zip classes shortnames
 
-        toNote ( index, name ) =
-            div [ class <| "note" ++ String.fromInt index ] [ text name ]
+        toDiv ( class_, name ) =
+            div [ class class_ ] [ text name ]
     in
-    List.map toNote numberedShortnames
+    List.map toDiv numberedShortnames
 
 
 noteOptions : List (Html Msg)
