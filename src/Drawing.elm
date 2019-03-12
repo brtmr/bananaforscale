@@ -140,10 +140,10 @@ drawScale model =
 inlay : Float -> Float -> Int -> Svg msg
 inlay fretDistance neckHeight numFret =
     Svg.circle
-        [ Svg.Attributes.r <| String.fromFloat (neckHeight * 0.05)
+        [ Svg.Attributes.r <| String.fromFloat (neckHeight * 0.04)
         , Svg.Attributes.cx <| String.fromFloat (((numFret |> toFloat) - 0.5) * fretDistance)
-        , Svg.Attributes.cy <| String.fromFloat (0.5 * neckHeight)
-        , Svg.Attributes.fill fretColor
+        , Svg.Attributes.cy <| String.fromFloat (-0.2 * neckHeight)
+        , Svg.Attributes.fill "#666"
         ]
         []
 
@@ -151,17 +151,17 @@ inlay fretDistance neckHeight numFret =
 doubleInlay : Float -> Float -> Int -> List (Svg msg)
 doubleInlay fretDistance neckHeight numFret =
     [ Svg.circle
-        [ Svg.Attributes.r <| String.fromFloat (neckHeight * 0.05)
+        [ Svg.Attributes.r <| String.fromFloat (neckHeight * 0.04)
         , Svg.Attributes.cx <| String.fromFloat (((numFret |> toFloat) - 0.5) * fretDistance)
-        , Svg.Attributes.cy <| String.fromFloat (0.25 * neckHeight)
-        , Svg.Attributes.fill fretColor
+        , Svg.Attributes.cy <| String.fromFloat (-0.2 * neckHeight)
+        , Svg.Attributes.fill "#666"
         ]
         []
     , Svg.circle
-        [ Svg.Attributes.r <| String.fromFloat (neckHeight * 0.05)
+        [ Svg.Attributes.r <| String.fromFloat (neckHeight * 0.04)
         , Svg.Attributes.cx <| String.fromFloat (((numFret |> toFloat) - 0.5) * fretDistance)
-        , Svg.Attributes.cy <| String.fromFloat (0.75 * neckHeight)
-        , Svg.Attributes.fill fretColor
+        , Svg.Attributes.cy <| String.fromFloat (-0.33 * neckHeight)
+        , Svg.Attributes.fill "#666"
         ]
         []
     ]
