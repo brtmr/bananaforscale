@@ -68,11 +68,17 @@ update msg model =
                 "major" ->
                     ( { model | scale = Notes.majorScale }, Cmd.none )
 
+                "majorPentatonicScale" ->
+                    ( { model | scale = Notes.majorPentatonicScale }, Cmd.none )
+
                 "minor" ->
                     ( { model | scale = Notes.minorScale }, Cmd.none )
 
                 "minorPentatonic" ->
                     ( { model | scale = Notes.minorPentatonicScale }, Cmd.none )
+
+                "blues" ->
+                    ( { model | scale = Notes.bluesScale }, Cmd.none )
 
                 _ ->
                     ( { model | scale = Notes.majorScale }, Cmd.none )
@@ -207,8 +213,10 @@ body m =
                 [ text "Scale:  " ]
             , select [ id "scaleselect", onInput ScaleSelected ]
                 [ option [ value "major" ] [ text "Major" ]
+                , option [ value "majorPentatonic" ] [ text "Major Pentatonic" ]
                 , option [ value "minor" ] [ text "Minor" ]
                 , option [ value "minorPentatonic" ] [ text "Minor Pentatonic" ]
+                , option [ value "blues" ] [ text "Blues" ]
                 ]
             ]
         ]
