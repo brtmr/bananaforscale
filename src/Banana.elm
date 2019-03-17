@@ -9,7 +9,7 @@ import Drawing exposing (fretBoard)
 import DrawingMath
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import Html.Events exposing (onClick, onInput)
+import Html.Events exposing (onCheck, onClick, onInput)
 import Json.Decode exposing (decodeString, int)
 import List
 import List.Extra exposing (zip, zip3)
@@ -177,7 +177,7 @@ scaleDisplay m =
                                 Nothing ->
                                     False
                             )
-                        , onInput NoteSelection
+                        , onCheck (\b -> NoteSelection (String.fromInt <| Notes.noteToInt <| note))
                         ]
                         []
                     , text (" " ++ name)
