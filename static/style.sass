@@ -4,6 +4,7 @@ body
   color: white
   font-family: 'Roboto Slab', serif
   padding:20px
+  text-align: right
 
 
 $color1  : #a6cee3
@@ -21,6 +22,8 @@ $color12 : #b15928
 
 
 #settings
+  display: flex
+  justify-content: flex-end
   width: 100%
   padding: 10px
 
@@ -33,24 +36,26 @@ $color12 : #b15928
     padding: 10px
     background-color: #444
     border: 1px solid #444
-    float: left
-    margin-left: 10px
+    margin: 4px
 
 #scale
 
-  clear: both
+  display: flex
+  justify-content: flex-end
   width: 100%
   padding: 10px
 
   %note
       color: black
-      float: left
-      display: inline-box
       width: 40px
       padding: 10px
-      margin: 10px
+      margin: 4px
       text-align: center
+      border:1px solid #666
 
+  .nonote
+    @extend %note
+    background-color: #333
   .note1
     @extend %note
     background-color: $color1
