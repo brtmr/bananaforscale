@@ -68,7 +68,7 @@ update msg model =
                 "major" ->
                     ( { model | scale = Notes.majorScale }, Cmd.none )
 
-                "majorPentatonicScale" ->
+                "majorPentatonic" ->
                     ( { model | scale = Notes.majorPentatonicScale }, Cmd.none )
 
                 "minor" ->
@@ -112,13 +112,27 @@ scaleDisplay : Model -> List (Html Msg)
 scaleDisplay m =
     let
         notes =
+            List.map Notes.intToNote <|
+                List.map (modBy 12) <|
+                    List.range (0 + Notes.noteToInt m.root)
+                        (11 + Notes.noteToInt m.root)
+
+        scale =
             Notes.makeScale m.root m.scale
 
         names =
             List.map Notes.noteName notes
 
         classes =
-            List.map getNoteCssClass notes
+            List.map
+                (\n ->
+                    if List.member n scale then
+                        getNoteCssClass n
+
+                    else
+                        "nonote"
+                )
+                notes
 
         shorten t =
             if Tuple.first t == Tuple.second t then
