@@ -1,8 +1,13 @@
-module Model exposing (Flags, Model, Msg(..), startModel)
+module Model exposing (Flags, Model, Msg(..), selectEntireScale, startModel, switchRoot, switchScale)
 
 import Browser.Dom exposing (Viewport)
+import Dict
 import NeckNotes
 import Notes
+
+
+type alias SelectedNotes =
+    Dict.Dict Int Bool
 
 
 type alias Model =
@@ -13,6 +18,7 @@ type alias Model =
     , drawHeadstock : Bool
     , drawScalefactor : Float
     , frets : Int
+    , selectedNotes : SelectedNotes
     }
 
 
@@ -25,6 +31,31 @@ startModel =
     , drawHeadstock = True
     , drawScalefactor = 4.5
     , frets = 16
+    , selectedNotes =
+        selectEntireScale Notes.C Notes.majorScale
+    }
+
+
+selectEntireScale : Notes.Note -> Notes.Scale -> SelectedNotes
+selectEntireScale root scale =
+    Dict.fromList <|
+        List.map (\n -> ( Notes.noteToInt n, True )) <|
+            Notes.makeScale root scale
+
+
+switchScale : Model -> Notes.Scale -> Model
+switchScale model scale =
+    { model
+        | scale = scale
+        , selectedNotes = selectEntireScale model.root scale
+    }
+
+
+switchRoot : Model -> Notes.Note -> Model
+switchRoot model root =
+    { model
+        | root = root
+        , selectedNotes = selectEntireScale root model.scale
     }
 
 
@@ -35,6 +66,7 @@ type Msg
     | NumFretsDec
     | ScaleSelected String
     | RootSelected String
+    | NoteSelection String
 
 
 type alias Flags =

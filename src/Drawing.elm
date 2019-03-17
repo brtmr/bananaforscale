@@ -127,7 +127,15 @@ drawScale model =
         noteFill =
             \n ->
                 if List.member n scale then
-                    getNoteCssClass n
+                    case Dict.get (Notes.noteToInt n) model.selectedNotes of
+                        Just True ->
+                            getNoteCssClass n
+
+                        Just False ->
+                            "svg_nonote"
+
+                        Nothing ->
+                            "svg_nonote"
 
                 else
                     "svg_nonote"

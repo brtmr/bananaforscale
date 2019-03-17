@@ -4,6 +4,7 @@ import Browser
 import Browser.Dom exposing (Viewport, getViewport)
 import Browser.Events exposing (onResize)
 import Debug
+import Dict
 import Drawing exposing (fretBoard)
 import DrawingMath
 import Html exposing (..)
@@ -11,7 +12,7 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, onInput)
 import Json.Decode exposing (decodeString, int)
 import List
-import List.Extra exposing (zip)
+import List.Extra exposing (zip, zip3)
 import Model exposing (..)
 import Notes
 import Task
@@ -28,6 +29,11 @@ init _ =
 
 
 -- Update
+
+
+toggle : Maybe Bool -> Maybe Bool
+toggle =
+    Maybe.andThen (\x -> Just <| not x)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -66,27 +72,35 @@ update msg model =
         ScaleSelected s ->
             case s of
                 "major" ->
-                    ( { model | scale = Notes.majorScale }, Cmd.none )
+                    ( Model.switchScale model Notes.majorScale, Cmd.none )
 
                 "majorPentatonic" ->
-                    ( { model | scale = Notes.majorPentatonicScale }, Cmd.none )
+                    ( Model.switchScale model Notes.majorPentatonicScale, Cmd.none )
 
                 "minor" ->
-                    ( { model | scale = Notes.minorScale }, Cmd.none )
+                    ( Model.switchScale model Notes.minorScale, Cmd.none )
 
                 "minorPentatonic" ->
-                    ( { model | scale = Notes.minorPentatonicScale }, Cmd.none )
+                    ( Model.switchScale model Notes.minorPentatonicScale, Cmd.none )
 
                 "blues" ->
-                    ( { model | scale = Notes.bluesScale }, Cmd.none )
+                    ( Model.switchScale model Notes.bluesScale, Cmd.none )
 
                 _ ->
-                    ( { model | scale = Notes.majorScale }, Cmd.none )
+                    ( Model.switchScale model Notes.majorScale, Cmd.none )
 
         RootSelected r ->
             case decodeString int r of
                 Result.Ok n ->
-                    ( { model | root = Notes.intToNote n }, Cmd.none )
+                    ( Model.switchRoot model <| Notes.intToNote n, Cmd.none )
+
+                Result.Err _ ->
+                    ( model, Cmd.none )
+
+        NoteSelection s ->
+            case decodeString int s of
+                Result.Ok n ->
+                    ( { model | selectedNotes = Dict.update n toggle model.selectedNotes }, Cmd.none )
 
                 Result.Err _ ->
                     ( model, Cmd.none )
@@ -144,13 +158,37 @@ scaleDisplay m =
         shortnames =
             List.map shorten names
 
-        numberedShortnames =
-            zip classes shortnames
+        notesClassesNames =
+            zip3 notes classes shortnames
 
-        toDiv ( class_, name ) =
-            div [ class class_ ] [ text name ]
+        toDiv ( note, class_, name ) =
+            div [ class class_ ]
+                (if class_ /= "nonote" then
+                    [ Html.input
+                        [ type_ "checkbox"
+                        , value (String.fromInt <| Notes.noteToInt <| note)
+                        , checked
+                            (case
+                                Dict.get (Notes.noteToInt note) m.selectedNotes
+                             of
+                                Just b ->
+                                    b
+
+                                Nothing ->
+                                    False
+                            )
+                        , onInput NoteSelection
+                        ]
+                        []
+                    , text (" " ++ name)
+                    ]
+
+                 else
+                    [ text name
+                    ]
+                )
     in
-    List.map toDiv numberedShortnames
+    List.map toDiv notesClassesNames
 
 
 noteOptions : List (Html Msg)

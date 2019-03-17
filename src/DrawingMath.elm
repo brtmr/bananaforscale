@@ -72,7 +72,7 @@ setHeadStockDraw model =
             calculate intermediateModel
 
         newModel =
-            if Debug.log "d = " coos.fretDistance > 60 then
+            if coos.fretDistance > 60 then
                 { intermediateModel | drawHeadstock = True }
 
             else
