@@ -1,11 +1,21 @@
 
-body
+html, body
+  margin: 0
+  padding: 0
+  display: flex
+  flex-direction: column
   background-color: #333
   color: white
   font-family: 'Roboto Slab', serif
-  padding:20px
   text-align: right
+  height: 100%
+  width: 100%
+a
+  color: white
 
+div
+  box-sizing: border-box
+  padding: 10px
 
 $color1  : #a6cee3
 $color2  : #1f78b4
@@ -23,17 +33,15 @@ $color12 : #b15928
 
 #settings
   display: flex
+  flex-wrap: wrap
   justify-content: flex-end
   width: 100%
-  padding: 10px
 
   button
     margin: 5px
 
   .setting
-    width:200px
     min-height: 40px
-    padding: 10px
     background-color: #444
     border: 1px solid #444
     margin: 4px
@@ -41,14 +49,13 @@ $color12 : #b15928
 #scale
 
   display: flex
+  flex-wrap: wrap
   justify-content: flex-end
   width: 100%
-  padding: 10px
 
   %note
       color: black
-      width: 40px
-      padding: 10px
+      min-width: 4em
       margin: 4px
       text-align: center
       border:1px solid #666
@@ -92,8 +99,20 @@ $color12 : #b15928
   .note12
     @extend %note
     background-color: $color12
-    
 
+#content
+  flex: 1 0 auto
+
+#footer
+  display: flex
+  flex-shrink: 0
+  min-height: 80px
+  width: 100%
+  text-align: center
+  background-repeat: no-repeat
+  align-items: center
+  justify-content: center
+  background-color: black
 
 svg
   margin-top: 40px

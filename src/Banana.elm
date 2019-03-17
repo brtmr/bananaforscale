@@ -198,8 +198,10 @@ body m =
         svgHeight =
             150.0
     in
-    [ h1 []
-        [ Html.text "Banana for Scale" ]
+    [ div []
+        [ h1 []
+            [ Html.text "Banana for Scale" ]
+        ]
     , div
         [ id "settings" ]
         [ div
@@ -237,8 +239,21 @@ body m =
     , div
         [ id "scale" ]
         (scaleDisplay m)
-    , div []
+    , div [ id "content" ]
         [ fretBoard m
+        ]
+    , div [ id "footer" ]
+        [ div []
+            [ Html.text "Source "
+            , a [ href "https://github.com/brtmr/bananaforscale" ] [ Html.text "here" ]
+            ]
+        , a
+            [ href "https://github.com/brtmr/bananaforscale" ]
+            [ Html.img [ src "banana.png", height 50 ] [] ]
+        , div []
+            [ Html.text "Made with "
+            , a [ href "https://elm-lang.org" ] [ Html.text "elm" ]
+            ]
         ]
     ]
 

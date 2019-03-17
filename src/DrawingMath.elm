@@ -38,7 +38,7 @@ calculate m =
                 m.drawScalefactor * HeadStock.nutXUnscaled
 
             else
-                10.0
+                50.0
 
         translateY =
             m.drawScalefactor * HeadStock.nutYUnscaled

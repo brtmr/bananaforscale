@@ -82,7 +82,11 @@ singleNote model string fret class is_root =
             (toFloat (6 - string) + 0.5) * stringDistance
 
         xPos =
-            (toFloat fret - 0.5) * coos.fretDistance
+            if fret > 0 then
+                (toFloat fret - 0.5) * coos.fretDistance
+
+            else
+                -25
 
         root_class =
             if is_root then
