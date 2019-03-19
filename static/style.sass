@@ -32,6 +32,7 @@ $color12 : #b15928
 
 
 #settings
+  font-size: 1.5em
   display: flex
   flex-wrap: wrap
   justify-content: flex-end
@@ -46,6 +47,10 @@ $color12 : #b15928
     background-color: #444
     border: 1px solid #444
     margin: 4px
+    
+  select, button
+    font-size: 24px
+    font-family: 'Roboto Slab', serif
 
 #scale
 
@@ -53,18 +58,24 @@ $color12 : #b15928
   flex-wrap: wrap
   justify-content: flex-end
   width: 100%
+  font-size: 1.5em
   min-height: 5em
 
   %note
+      display: flex
+      justify-content: center
+      align-items: center
       color: black
-      min-width: 4em
+      min-width: 5em
       margin: 4px
       text-align: center
       border:1px solid #666
+      font-weight: bold
 
   .nonote
     @extend %note
     background-color: #333
+    color: white
   .note1
     @extend %note
     background-color: $color1

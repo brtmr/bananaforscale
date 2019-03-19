@@ -162,7 +162,15 @@ scaleDisplay m =
             zip3 notes classes shortnames
 
         toDiv ( note, class_, name ) =
-            div [ class class_ ]
+            div
+                ([ class class_ ]
+                    ++ (if class_ /= "nonote" then
+                            [ onClick (NoteSelection (String.fromInt <| Notes.noteToInt <| note)) ]
+
+                        else
+                            []
+                       )
+                )
                 (if class_ /= "nonote" then
                     [ Html.input
                         [ type_ "checkbox"
@@ -177,7 +185,6 @@ scaleDisplay m =
                                 Nothing ->
                                     False
                             )
-                        , onCheck (\b -> NoteSelection (String.fromInt <| Notes.noteToInt <| note))
                         ]
                         []
                     , text (" " ++ name)
