@@ -86,6 +86,9 @@ update msg model =
                 "blues" ->
                     ( Model.switchScale model Notes.bluesScale, Cmd.none )
 
+                "bbKing" ->
+                    ( Model.switchScale model Notes.bbKingScale, Cmd.none )
+
                 _ ->
                     ( Model.switchScale model Notes.majorScale, Cmd.none )
 
@@ -278,6 +281,7 @@ body m =
                 , option [ value "minor" ] [ text "Minor" ]
                 , option [ value "minorPentatonic" ] [ text "Minor Pentatonic" ]
                 , option [ value "blues" ] [ text "Blues" ]
+                , option [ value "bbKing" ] [ text "B.B. King" ]
                 ]
             ]
         ]
