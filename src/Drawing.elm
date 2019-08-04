@@ -32,19 +32,23 @@ intervalRatio =
     1.059463
 
 
-singleFret : Float -> Float -> Int -> Svg msg
-singleFret fretX fretHeight fretNum =
+singleFret : DrawingMath.SvgCoordinates -> Float -> Int -> Svg msg
+singleFret coos fretX fretNum =
+    let
+        halfFretBack =
+            String.fromFloat <| (coos.fretDistance / -2.0) - 10
+    in
     Svg.g
         [ transform <| "translate(" ++ String.fromFloat fretX ++ ",0)"
         ]
         [ rect
             [ width "3"
-            , height <| String.fromFloat fretHeight
+            , height <| String.fromFloat coos.neckHeight
             , fill fretColor
             ]
             []
         , Svg.text_
-            [ Svg.Attributes.transform "translate(-5, -10)"
+            [ Svg.Attributes.transform <| "translate(" ++ halfFretBack ++ ", -10)"
             , Svg.Attributes.fill "#666"
             ]
             [ Svg.text <| String.fromInt fretNum ]
@@ -204,7 +208,7 @@ fretBoard m =
                     ]
                     []
                 ]
-            , g [ id "frets" ] (List.map (\( n, pos ) -> singleFret pos coos.neckHeight n) numberedFrets)
+            , g [ id "frets" ] (List.map (\( n, pos ) -> singleFret coos pos n) numberedFrets)
             , g [ id "inlayDots" ]
                 ([ inlay coos.fretDistance coos.neckHeight 3
                  , inlay coos.fretDistance coos.neckHeight 5
