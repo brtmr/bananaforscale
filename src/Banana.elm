@@ -113,16 +113,21 @@ update msg model =
 -- View
 
 
-getNoteCssClass : Notes.Note -> String
-getNoteCssClass n =
+getNoteCssClass : Model -> Notes.Note -> String
+getNoteCssClass m n =
     let
         num =
-            Notes.noteToInt n + 1
+            Notes.scaleDegreeAsInt m.root n + 1
 
         numString =
             String.fromInt num
     in
-    "note" ++ numString
+    case Dict.get (Notes.noteToInt n) m.selectedNotes of
+        Just True ->
+            "note" ++ numString
+
+        _ ->
+            "nonote"
 
 
 scaleDisplay : Model -> List (Html Msg)
@@ -144,11 +149,7 @@ scaleDisplay m =
             List.map Notes.noteName notes
 
         classes =
-            List.map
-                (\n ->
-                    getNoteCssClass n.note
-                )
-                notesWithDegrees
+            List.map (\n -> getNoteCssClass m n) notes
 
         shorten t =
             if Tuple.first t == Tuple.second t then
@@ -161,19 +162,19 @@ scaleDisplay m =
             List.map shorten names
 
         notesClassesNames =
-            zip3 notes classes shortnames
+            zip3 notesWithDegrees classes shortnames
 
         toDiv ( note, class_, name ) =
             div
                 [ class class_
-                , onClick (NoteSelection (String.fromInt <| Notes.noteToInt <| note))
+                , onClick (NoteSelection (String.fromInt <| Notes.noteToInt <| note.note))
                 ]
                 [ Html.input
                     [ type_ "checkbox"
-                    , value (String.fromInt <| Notes.noteToInt <| note)
+                    , value (String.fromInt <| Notes.noteToInt <| note.note)
                     , checked
                         (case
-                            Dict.get (Notes.noteToInt note) m.selectedNotes
+                            Dict.get (Notes.noteToInt note.note) m.selectedNotes
                          of
                             Just b ->
                                 b
@@ -183,7 +184,7 @@ scaleDisplay m =
                         )
                     ]
                     []
-                , Html.text name
+                , Html.text <| name ++ "(" ++ note.degree ++ ")"
                 ]
     in
     List.map toDiv notesClassesNames

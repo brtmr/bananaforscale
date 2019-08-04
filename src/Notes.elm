@@ -1,4 +1,4 @@
-module Notes exposing (Note(..), NoteInScale, NoteName, SPN(..), Scale, ScaleStep(..), bbKingScale, bluesScale, contextualizeNote, filterFirst, flat, intToNote, intervalName, intervalShortName, majorPentatonicScale, majorScale, makeScale, makeScaleWithDegrees, makeStep, midiToOctave, midiToPitch, midiToSPN, minorPentatonicScale, minorScale, noteName, noteToInt, scaleDegree, scaleStepAsSemitones, sharp, spnToMidi, spnToPitch, toNote)
+module Notes exposing (Note(..), NoteInScale, NoteName, SPN(..), Scale, ScaleStep(..), bbKingScale, bluesScale, contextualizeNote, filterFirst, flat, intToNote, intervalName, intervalShortName, majorPentatonicScale, majorScale, makeScale, makeScaleWithDegrees, makeStep, midiToOctave, midiToPitch, midiToSPN, minorPentatonicScale, minorScale, noteName, noteToInt, scaleDegree, scaleDegreeAsInt, scaleStepAsSemitones, sharp, spnToMidi, spnToPitch, toNote)
 
 import Dict exposing (..)
 import Maybe
@@ -324,6 +324,9 @@ intervalShortName i =
         5 ->
             "4"
 
+        6 ->
+            flat "5"
+
         7 ->
             "5"
 
@@ -499,20 +502,28 @@ makeStep n s =
     intToNote <| noteToInt n + scaleStepAsSemitones s
 
 
-scaleDegree : Note -> Note -> String
-scaleDegree root n =
+scaleDegreeAsInt : Note -> Note -> Int
+scaleDegreeAsInt root n =
     let
-        distance =
-            noteToInt root - noteToInt n
+        rootInt =
+            noteToInt root
 
-        distance_relative_to_root =
-            if distance < 0 then
-                12 + distance
+        noteInt =
+            noteToInt n
+
+        distance =
+            if rootInt <= noteInt then
+                noteInt - rootInt
 
             else
-                distance
+                (noteInt + 12) - rootInt
     in
-    intervalShortName distance_relative_to_root
+    distance
+
+
+scaleDegree : Note -> Note -> String
+scaleDegree root n =
+    intervalShortName <| scaleDegreeAsInt root n
 
 
 type alias NoteInScale =

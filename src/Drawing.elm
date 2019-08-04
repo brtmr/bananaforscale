@@ -113,11 +113,11 @@ singleNote model string fret class is_root =
         []
 
 
-getNoteCssClass : Notes.Note -> String
-getNoteCssClass n =
+getNoteCssClass : Notes.Note -> Notes.Note -> String
+getNoteCssClass root n =
     let
         num =
-            Notes.noteToInt n + 1
+            Notes.scaleDegreeAsInt root n + 1
 
         numString =
             String.fromInt num
@@ -135,7 +135,7 @@ drawScale model =
             \n ->
                 case Dict.get (Notes.noteToInt n) model.selectedNotes of
                     Just True ->
-                        getNoteCssClass n
+                        getNoteCssClass model.root n
 
                     _ ->
                         "svg_nonote"
