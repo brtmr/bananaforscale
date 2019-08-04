@@ -37,6 +37,9 @@ singleFret coos fretX fretNum =
     let
         halfFretBack =
             String.fromFloat <| (coos.fretDistance / -2.0) - 10
+
+        neckHeight =
+            String.fromFloat <| coos.neckHeight + 35
     in
     Svg.g
         [ transform <| "translate(" ++ String.fromFloat fretX ++ ",0)"
@@ -48,7 +51,7 @@ singleFret coos fretX fretNum =
             ]
             []
         , Svg.text_
-            [ Svg.Attributes.transform <| "translate(" ++ halfFretBack ++ ", -10)"
+            [ Svg.Attributes.transform <| "translate(" ++ halfFretBack ++ ", " ++ neckHeight ++ ")"
             , Svg.Attributes.fill "#666"
             ]
             [ Svg.text <| String.fromInt fretNum ]
