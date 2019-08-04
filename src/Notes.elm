@@ -1,4 +1,4 @@
-module Notes exposing (Note(..), NoteName, SPN(..), Scale, ScaleStep(..), bluesScale, filterFirst, flat, intToNote, intervalName, majorPentatonicScale, majorScale, makeScale, makeStep, midiToOctave, midiToPitch, midiToSPN, minorPentatonicScale, minorScale, noteName, noteToInt, scaleStepAsSemitones, sharp, spnToMidi, spnToPitch, toNote)
+module Notes exposing (Note(..), NoteInScale, NoteName, SPN(..), Scale, ScaleStep(..), bbKingScale, bluesScale, contextualizeNote, filterFirst, flat, intToNote, intervalName, intervalShortName, majorPentatonicScale, majorScale, makeScale, makeScaleWithDegrees, makeStep, midiToOctave, midiToPitch, midiToSPN, minorPentatonicScale, minorScale, noteName, noteToInt, scaleDegree, scaleStepAsSemitones, sharp, spnToMidi, spnToPitch, toNote)
 
 import Dict exposing (..)
 import Maybe
@@ -300,6 +300,50 @@ intervalName i =
 
 
 
+-- short notation for the degrees/ notes of the major scale
+
+
+intervalShortName : Int -> String
+intervalShortName i =
+    case i of
+        0 ->
+            "1"
+
+        1 ->
+            flat "2"
+
+        2 ->
+            "2"
+
+        3 ->
+            flat "3"
+
+        4 ->
+            "3"
+
+        5 ->
+            "4"
+
+        7 ->
+            "5"
+
+        8 ->
+            flat "6"
+
+        9 ->
+            "6"
+
+        10 ->
+            flat "7"
+
+        11 ->
+            "7"
+
+        _ ->
+            "Unnamed Interval"
+
+
+
 -- to represent notes we will use MIDI integer representation
 -- https://en.wikipedia.org/wiki/Scientific_pitch_notation#Table_of_note_frequencies
 -- we extend the midi numbering along the entire integer range
@@ -440,9 +484,48 @@ bluesScale =
     ]
 
 
+bbKingScale : Scale
+bbKingScale =
+    [ WholeAndAHalf
+    , Whole
+    , Whole
+    , Whole
+    , WholeAndAHalf
+    ]
+
+
 makeStep : Note -> ScaleStep -> Note
 makeStep n s =
     intToNote <| noteToInt n + scaleStepAsSemitones s
+
+
+scaleDegree : Note -> Note -> String
+scaleDegree root n =
+    let
+        distance =
+            noteToInt root - noteToInt n
+
+        distance_relative_to_root =
+            if distance < 0 then
+                12 + distance
+
+            else
+                distance
+    in
+    intervalShortName distance_relative_to_root
+
+
+type alias NoteInScale =
+    { note : Note
+    , degree : String
+    }
+
+
+contextualizeNote : Note -> Note -> NoteInScale
+contextualizeNote root n =
+    { note = n
+    , degree = scaleDegree root n
+    }
 
 
 makeScale : Note -> Scale -> List Note
@@ -457,3 +540,15 @@ makeScale root scale =
 
         [] ->
             []
+
+
+makeScaleWithDegrees : Note -> Scale -> List NoteInScale
+makeScaleWithDegrees root scale =
+    let
+        plain =
+            makeScale root scale
+
+        context =
+            \n -> contextualizeNote root n
+    in
+    List.map context plain

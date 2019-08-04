@@ -134,8 +134,11 @@ scaleDisplay m =
                     List.range (0 + Notes.noteToInt m.root)
                         (11 + Notes.noteToInt m.root)
 
+        notesWithDegrees =
+            List.map (\n -> Notes.contextualizeNote m.root n) notes
+
         scale =
-            Notes.makeScale m.root m.scale
+            Notes.makeScaleWithDegrees m.root m.scale
 
         names =
             List.map Notes.noteName notes
@@ -143,13 +146,9 @@ scaleDisplay m =
         classes =
             List.map
                 (\n ->
-                    if List.member n scale then
-                        getNoteCssClass n
-
-                    else
-                        "nonote"
+                    getNoteCssClass n.note
                 )
-                notes
+                notesWithDegrees
 
         shorten t =
             if Tuple.first t == Tuple.second t then
@@ -166,37 +165,26 @@ scaleDisplay m =
 
         toDiv ( note, class_, name ) =
             div
-                ([ class class_ ]
-                    ++ (if class_ /= "nonote" then
-                            [ onClick (NoteSelection (String.fromInt <| Notes.noteToInt <| note)) ]
+                [ class class_
+                , onClick (NoteSelection (String.fromInt <| Notes.noteToInt <| note))
+                ]
+                [ Html.input
+                    [ type_ "checkbox"
+                    , value (String.fromInt <| Notes.noteToInt <| note)
+                    , checked
+                        (case
+                            Dict.get (Notes.noteToInt note) m.selectedNotes
+                         of
+                            Just b ->
+                                b
 
-                        else
-                            []
-                       )
-                )
-                (if class_ /= "nonote" then
-                    [ Html.input
-                        [ type_ "checkbox"
-                        , value (String.fromInt <| Notes.noteToInt <| note)
-                        , checked
-                            (case
-                                Dict.get (Notes.noteToInt note) m.selectedNotes
-                             of
-                                Just b ->
-                                    b
-
-                                Nothing ->
-                                    False
-                            )
-                        ]
-                        []
-                    , text (" " ++ name)
+                            Nothing ->
+                                False
+                        )
                     ]
-
-                 else
-                    [ text name
-                    ]
-                )
+                    []
+                , Html.text name
+                ]
     in
     List.map toDiv notesClassesNames
 

@@ -36,11 +36,33 @@ startModel =
     }
 
 
+nothingSelected : SelectedNotes
+nothingSelected =
+    Dict.fromList <|
+        [ ( 0, False )
+        , ( 1, False )
+        , ( 2, False )
+        , ( 3, False )
+        , ( 4, False )
+        , ( 5, False )
+        , ( 6, False )
+        , ( 7, False )
+        , ( 8, False )
+        , ( 9, False )
+        , ( 10, False )
+        , ( 11, False )
+        ]
+
+
 selectEntireScale : Notes.Note -> Notes.Scale -> SelectedNotes
 selectEntireScale root scale =
-    Dict.fromList <|
-        List.map (\n -> ( Notes.noteToInt n, True )) <|
-            Notes.makeScale root scale
+    let
+        s =
+            Dict.fromList <|
+                List.map (\n -> ( Notes.noteToInt n.note, True )) <|
+                    Notes.makeScaleWithDegrees root scale
+    in
+    Dict.union s nothingSelected
 
 
 switchScale : Model -> Notes.Scale -> Model
