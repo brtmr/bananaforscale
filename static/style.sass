@@ -129,58 +129,81 @@ $color12 : #b15928
 
 svg
   margin-top: 40px
-  font-size: 2em
+
+  text
+    stroke-width: 0px!important
+    fill: black!important
+    font-size: 20px
+
+  %svg_note
+    font-size: 20px
 
   .svg_rootnote
+    @extend %svg_note
     stroke : white!important
 
   .svg_note1
+    @extend %svg_note
     stroke : black
     fill: $color1
     stroke-width: 3
   .svg_note2
+    @extend %svg_note
     fill: $color2
     stroke : black
     stroke-width: 3
   .svg_note3
+    @extend %svg_note
     fill: $color3
     stroke : black
     stroke-width: 3
   .svg_note4
+    @extend %svg_note
     fill: $color4
     stroke : black
     stroke-width: 3
   .svg_note5
+    @extend %svg_note
     fill: $color5
     stroke : black
     stroke-width: 3
   .svg_note6
+    @extend %svg_note
     fill: $color6
     stroke : black
     stroke-width: 3
   .svg_note7
+    @extend %svg_note
     fill: $color7
     stroke : black
     stroke-width: 3
   .svg_note8
+    @extend %svg_note
     fill: $color8
     stroke : black
     stroke-width: 3
   .svg_note9
+    @extend %svg_note
     fill: $color9
     stroke : black
     stroke-width: 3
   .svg_note10
+    @extend %svg_note
     fill: $color10
     stroke : black
     stroke-width: 3
   .svg_note11
+    @extend %svg_note
     fill: $color11
     stroke : black
     stroke-width: 3
   .svg_note12
+    @extend %svg_note
     fill: $color12
     stroke : black
     stroke-width: 3
   .svg_nonote
+    @extend %svg_note
     fill: none
+    text
+        display: none

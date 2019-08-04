@@ -76,8 +76,8 @@ singleString svgWidth svgHeight nString =
         []
 
 
-singleNote : Model -> Int -> Int -> String -> Bool -> Svg msg
-singleNote model string fret class is_root =
+singleNote : Model -> Notes.Note -> Int -> Int -> String -> Bool -> Svg msg
+singleNote model note string fret class is_root =
     let
         coos =
             DrawingMath.calculate model
@@ -86,14 +86,10 @@ singleNote model string fret class is_root =
             coos.neckHeight / 6.0
 
         yPos =
-            (toFloat (6 - string) + 0.5) * stringDistance
+            (toFloat (6 - string) + 0.1) * stringDistance
 
         xPos =
-            if fret > 0 then
-                (toFloat fret - 0.5) * coos.fretDistance
-
-            else
-                -25
+            (toFloat (fret - 1) + 0.1) * coos.fretDistance
 
         root_class =
             if is_root then
@@ -101,16 +97,62 @@ singleNote model string fret class is_root =
 
             else
                 []
+
+        shorten t =
+            if Tuple.first t == Tuple.second t then
+                Tuple.first t
+
+            else
+                Tuple.first t ++ "/" ++ Tuple.second t
+
+        y =
+            String.fromFloat yPos
+
+        x =
+            String.fromFloat xPos
+
+        w =
+            coos.fretDistance * 0.8
+
+        h =
+            coos.neckHeight / 6.0 * 0.8
+
+        textTranslateY =
+            coos.neckHeight / 6.0 * 0.7
+
+        textTranslateX =
+            4
+
+        --            coos.fretDistance * 0.5 - 30
+        textTranslate =
+            "translate(" ++ String.fromFloat textTranslateX ++ "," ++ String.fromFloat textTranslateY ++ ")"
     in
-    Svg.circle
-        (root_class
-            ++ [ Svg.Attributes.class class
-               , Svg.Attributes.cy <| String.fromFloat yPos
-               , Svg.Attributes.cx <| String.fromFloat xPos
-               , Svg.Attributes.r <| String.fromFloat <| stringDistance * 0.4
-               ]
-        )
-        []
+    Svg.g
+        [ Svg.Attributes.transform <| "translate(" ++ x ++ "," ++ y ++ ")"
+        ]
+        [ Svg.rect
+            (root_class
+                ++ [ Svg.Attributes.class class
+                   , Svg.Attributes.width <| String.fromFloat w
+                   , Svg.Attributes.height <| String.fromFloat h
+                   , Svg.Attributes.rx "5"
+                   , Svg.Attributes.ry "5"
+
+                   -- , Svg.Attributes.r <| String.fromFloat <| stringDistance * 0.4
+                   ]
+            )
+            []
+        , Svg.text_
+            [ Svg.Attributes.transform textTranslate
+            ]
+            [ Svg.text <|
+                if class /= "svg_nonote" then
+                    shorten <| Notes.noteName note
+
+                else
+                    ""
+            ]
+        ]
 
 
 getNoteCssClass : Notes.Note -> Notes.Note -> String
@@ -144,7 +186,7 @@ drawScale model =
             NeckNotes.notesOnString model.tuning model.frets
 
         notesOnSingleString stringNotes string =
-            List.map (\( index, note ) -> singleNote model string index (noteFill <| note) (note == model.root)) <| zip (List.range 0 model.frets) (List.map Notes.spnToPitch stringNotes)
+            List.map (\( index, note ) -> singleNote model note string index (noteFill <| note) (note == model.root)) <| zip (List.range 0 model.frets) (List.map Notes.spnToPitch stringNotes)
     in
     List.concatMap (\( index, notes_ ) -> notesOnSingleString notes_ index) <| zip (List.range 1 6) notes
 
