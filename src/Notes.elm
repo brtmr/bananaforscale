@@ -1,4 +1,4 @@
-module Notes exposing (Note(..), NoteInScale, NoteName, SPN(..), Scale, ScaleStep(..), bbKingScale, bluesScale, contextualizeNote, filterFirst, flat, intToNote, intervalName, intervalShortName, majorPentatonicScale, majorScale, makeScale, makeScaleWithDegrees, makeStep, midiToOctave, midiToPitch, midiToSPN, minorPentatonicScale, minorScale, noteName, noteToInt, scaleDegree, scaleDegreeAsInt, scaleStepAsSemitones, sharp, spnToMidi, spnToPitch, toNote)
+module Notes exposing (Note(..), NoteInScale, NoteName, SPN(..), Scale, ScaleStep(..), bbKingScale, bluesScale, harmonicMajorScale, harmonicMinorScale, dorianScale, phrygianScale, lydianScale, mixolydianScale, locrianScale, contextualizeNote, filterFirst, flat, intToNote, intervalName, intervalShortName, majorPentatonicScale, majorScale, makeScale, makeScaleWithDegrees, makeStep, midiToOctave, midiToPitch, midiToSPN, minorPentatonicScale, minorScale, noteName, noteToInt, scaleDegree, scaleDegreeAsInt, scaleStepAsSemitones, sharp, spnToMidi, spnToPitch, toNote)
 
 import Dict exposing (..)
 import Maybe
@@ -496,6 +496,82 @@ bbKingScale =
     , WholeAndAHalf
     ]
 
+harmonicMajorScale : Scale
+harmonicMajorScale =
+    [ Whole
+    , Whole
+    , Half
+    , Whole
+    , Half
+    , WholeAndAHalf
+    , Half
+    ]
+
+harmonicMinorScale : Scale
+harmonicMinorScale =
+    [ Whole
+    , Half
+    , Whole
+    , Whole
+    , Half
+    , WholeAndAHalf
+    , Half
+    ]
+
+dorianScale : Scale
+dorianScale =
+    [ Whole
+    , Half
+    , Whole
+    , Whole
+    , Whole
+    , Half
+    , Whole
+    ]
+
+phrygianScale : Scale
+phrygianScale =
+    [ Half
+    , Whole
+    , Whole
+    , Whole
+    , Half
+    , Whole
+    , Whole
+    ]
+
+lydianScale : Scale
+lydianScale =
+    [ Whole
+    , Whole
+    , Whole
+    , Half
+    , Whole
+    , Whole
+    , Half
+    ]
+
+mixolydianScale : Scale
+mixolydianScale =
+    [ Whole
+    , Whole
+    , Half
+    , Whole
+    , Whole
+    , Half
+    , Whole
+    ]
+
+locrianScale : Scale
+locrianScale =
+    [ Half
+    , Whole
+    , Whole
+    , Half
+    , Whole
+    , Whole
+    , Whole
+    ]
 
 makeStep : Note -> ScaleStep -> Note
 makeStep n s =

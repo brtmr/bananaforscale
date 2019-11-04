@@ -30,7 +30,7 @@ startModel =
     , tuning = NeckNotes.standardTuning
     , drawHeadstock = True
     , drawScalefactor = 5
-    , frets = 16
+    , frets = 12
     , selectedNotes =
         selectEntireScale Notes.C Notes.majorScale
     }
