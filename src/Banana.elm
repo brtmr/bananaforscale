@@ -1,4 +1,4 @@
-module Main exposing (main)
+module Banana exposing (main)
 
 import Browser
 import Browser.Dom exposing (Viewport, getViewport)
