@@ -57,7 +57,7 @@ calculate vp frets drawScalefactor drawHeadstock =
             neckHeight / 6.0
 
         stringScale =
-            S.linear ( 0, neckHeight ) ( 0.5, 6.5 )
+            S.linear ( neckHeight, 0 ) ( 0.5, 6.5 )
 
         fretScale =
             S.linear ( 0, fretDistance * toFloat (frets + 1) ) ( 0, toFloat frets )
