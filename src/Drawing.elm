@@ -8,6 +8,7 @@ import List.Extra exposing (zip)
 import Model exposing (..)
 import NeckNotes
 import Notes
+import Scale as S
 import Svg exposing (..)
 import Svg.Attributes exposing (..)
 
@@ -39,6 +40,9 @@ singleFret coos fretX fretNum =
             String.fromFloat <| (coos.fretDistance / -2.0) - 10
 
         neckHeight =
+            String.fromFloat <| coos.neckHeight
+
+        textHeight =
             String.fromFloat <| coos.neckHeight + 35
     in
     Svg.g
@@ -46,30 +50,27 @@ singleFret coos fretX fretNum =
         ]
         [ rect
             [ width "3"
-            , height <| String.fromFloat coos.neckHeight
+            , height neckHeight
             , fill fretColor
             ]
             []
         , Svg.text_
-            [ Svg.Attributes.transform <| "translate(" ++ halfFretBack ++ ", " ++ neckHeight ++ ")"
+            [ Svg.Attributes.transform <| "translate(" ++ halfFretBack ++ ", " ++ textHeight ++ ")"
             , Svg.Attributes.fill "#666"
             ]
             [ Svg.text <| String.fromInt fretNum ]
         ]
 
 
-singleString : Float -> Float -> Int -> Svg msg
-singleString svgWidth svgHeight nString =
+singleString : Model -> Int -> Svg msg
+singleString model nString =
     let
-        stringDistance =
-            svgHeight / 6.0
-
         yPos =
-            (toFloat nString - 0.5) * stringDistance
+            S.convert model.coos.stringScale (toFloat nString)
     in
     rect
         [ height "1.5"
-        , width <| String.fromFloat svgWidth
+        , width <| String.fromFloat model.coos.svgWidth
         , transform <| "translate(0," ++ String.fromFloat yPos ++ ")"
         , fill stringColor
         ]
@@ -79,17 +80,14 @@ singleString svgWidth svgHeight nString =
 singleNote : Model -> Notes.Note -> Int -> Int -> String -> Bool -> Svg msg
 singleNote model note string fret class is_root =
     let
-        coos =
-            DrawingMath.calculate model
-
-        stringDistance =
-            coos.neckHeight / 6.0
+        w =
+            model.coos.fretWidth fret * 0.8
 
         yPos =
-            (toFloat (6 - string) + 0.1) * stringDistance
+            (S.convert model.coos.stringScale <| toFloat string) - 0.4 * model.coos.stringDistance
 
         xPos =
-            (toFloat (fret - 1) + 0.1) * coos.fretDistance
+            (S.convert model.coos.fretScale <| toFloat (fret - 1)) + (0.2 * w)
 
         root_class =
             if is_root then
@@ -111,19 +109,16 @@ singleNote model note string fret class is_root =
         x =
             String.fromFloat xPos
 
-        w =
-            coos.fretDistance * 0.8
-
         h =
-            coos.neckHeight / 6.0 * 0.8
+            model.coos.stringDistance * 0.8
 
         textTranslateY =
-            coos.neckHeight / 6.0 * 0.7
+            model.coos.stringDistance * 0.7
 
         textTranslateX =
             4
 
-        --            coos.fretDistance * 0.5 - 30
+        --            model.coos.fretDistance * 0.5 - 30
         textTranslate =
             "translate(" ++ String.fromFloat textTranslateX ++ "," ++ String.fromFloat textTranslateY ++ ")"
     in
@@ -222,51 +217,48 @@ doubleInlay fretDistance neckHeight numFret =
 
 
 fretBoard : Model.Model -> Html Msg
-fretBoard m =
+fretBoard model =
     let
-        coos =
-            DrawingMath.calculate m
-
         numberedFrets =
-            zip (List.range 0 m.frets) coos.fretPositions
+            zip (List.range 0 model.frets) (List.map (toFloat >> S.convert model.coos.fretScale) (List.range 0 model.frets))
 
         translateFretboard =
-            transform <| "translate(" ++ String.fromFloat coos.translateX ++ "," ++ String.fromFloat coos.translateY ++ ")"
+            transform <| "translate(" ++ String.fromFloat model.coos.translateX ++ "," ++ String.fromFloat model.coos.translateY ++ ")"
     in
     svg
-        [ width <| String.fromFloat coos.svgWidth
-        , height <| String.fromFloat coos.svgHeight
+        [ width <| String.fromFloat model.coos.svgWidth
+        , height <| String.fromFloat model.coos.svgHeight
         ]
         [ g [ translateFretboard ]
             [ g [ id "fretBoard" ]
                 [ rect
-                    [ width <| String.fromFloat coos.svgWidth
-                    , height <| String.fromFloat coos.neckHeight
+                    [ width <| String.fromFloat model.coos.svgWidth
+                    , height <| String.fromFloat model.coos.neckHeight
                     , fill fretboardColor
                     ]
                     []
                 ]
-            , g [ id "frets" ] (List.map (\( n, pos ) -> singleFret coos pos n) numberedFrets)
+            , g [ id "frets" ] (List.map (\( n, pos ) -> singleFret model.coos pos n) numberedFrets)
             , g [ id "inlayDots" ]
-                ([ inlay coos.fretDistance coos.neckHeight 3
-                 , inlay coos.fretDistance coos.neckHeight 5
-                 , inlay coos.fretDistance coos.neckHeight 7
-                 , inlay coos.fretDistance coos.neckHeight 9
-                 , inlay coos.fretDistance coos.neckHeight 15
-                 , inlay coos.fretDistance coos.neckHeight 17
-                 , inlay coos.fretDistance coos.neckHeight 19
-                 , inlay coos.fretDistance coos.neckHeight 21
+                ([ inlay model.coos.fretDistance model.coos.neckHeight 3
+                 , inlay model.coos.fretDistance model.coos.neckHeight 5
+                 , inlay model.coos.fretDistance model.coos.neckHeight 7
+                 , inlay model.coos.fretDistance model.coos.neckHeight 9
+                 , inlay model.coos.fretDistance model.coos.neckHeight 15
+                 , inlay model.coos.fretDistance model.coos.neckHeight 17
+                 , inlay model.coos.fretDistance model.coos.neckHeight 19
+                 , inlay model.coos.fretDistance model.coos.neckHeight 21
                  ]
-                    ++ doubleInlay coos.fretDistance coos.neckHeight 12
-                    ++ doubleInlay coos.fretDistance coos.neckHeight 24
+                    ++ doubleInlay model.coos.fretDistance model.coos.neckHeight 12
+                    ++ doubleInlay model.coos.fretDistance model.coos.neckHeight 24
                 )
-            , g [ id "strings" ] (List.map (\x -> singleString (coos.svgWidth - coos.translateX) coos.neckHeight x) <| List.range 1 6)
+            , g [ id "strings" ] (List.map (singleString model) <| List.range 1 6)
             ]
-        , if m.drawHeadstock then
-            HeadStock.headStockGroup m.drawScalefactor
+        , if model.drawHeadstock then
+            HeadStock.headStockGroup model.drawScalefactor
 
           else
             Svg.g [] []
         , g [ translateFretboard ]
-            (drawScale m)
+            (drawScale model)
         ]

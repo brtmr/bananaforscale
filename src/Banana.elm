@@ -40,34 +40,24 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         ViewportChange newViewport ->
-            let
-                intermediateModel =
-                    { model | viewport = Just newViewport, drawHeadstock = True }
-
-                coos =
-                    DrawingMath.calculate intermediateModel
-
-                newModel =
-                    DrawingMath.setHeadStockDraw intermediateModel
-            in
-            ( newModel, Cmd.none )
+            ( recalculate { model | viewport = Just newViewport, drawHeadstock = True }, Cmd.none )
 
         WindowResize ->
             ( model, Task.perform ViewportChange getViewport )
 
         NumFretsInc ->
             if model.frets < 24 then
-                ( DrawingMath.setHeadStockDraw { model | frets = model.frets + 1 }, Cmd.none )
+                ( recalculate { model | frets = model.frets + 1 }, Cmd.none )
 
             else
-                ( DrawingMath.setHeadStockDraw model, Cmd.none )
+                ( recalculate model, Cmd.none )
 
         NumFretsDec ->
             if model.frets > 5 then
-                ( DrawingMath.setHeadStockDraw { model | frets = model.frets - 1 }, Cmd.none )
+                ( recalculate { model | frets = model.frets - 1 }, Cmd.none )
 
             else
-                ( DrawingMath.setHeadStockDraw model, Cmd.none )
+                ( recalculate model, Cmd.none )
 
         ScaleSelected s ->
             case s of
