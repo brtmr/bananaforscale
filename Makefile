@@ -1,13 +1,19 @@
+default: all
 
-.PHONY: clean
+.PHONY: clean all static
 
 clean:
 	rm -rf build/*
 
-banana: css
+all: static banana
+
+static: 
 	cp -v static/index.html build/index.html
 	cp -v static/*.png build/
 	cp -v static/*.ico build/
+	cp -v static/site.webmanifest build/
+
+banana: css
 	elm make src/Banana.elm --output build/banana.js
 
 css:
