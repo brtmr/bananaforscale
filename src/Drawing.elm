@@ -64,6 +64,12 @@ singleFret model fret =
 singleString : Model -> Int -> Svg msg
 singleString model nString =
     let
+        x1 =
+            S.convert model.coos.fretScale 0
+
+        x2 =
+            S.convert model.coos.fretScale <| toFloat model.frets
+
         h =
             1
 
@@ -72,8 +78,8 @@ singleString model nString =
     in
     rect
         [ height <| String.fromFloat h
-        , width <| String.fromFloat model.coos.svgWidth
-        , transform <| "translate(0," ++ String.fromFloat yPos ++ ")"
+        , width <| String.fromFloat (x2 - x1)
+        , transform <| "translate(" ++ String.fromFloat x1 ++ "," ++ String.fromFloat yPos ++ ")"
         , fill stringColor
         ]
         []
@@ -131,7 +137,7 @@ singleNote model note string fret class is_root =
                 model.coos.stringDistance - 6
 
         textTranslateY =
-            model.coos.stringDistance * 0.7
+            model.coos.stringDistance * 0.65
 
         textTranslateX =
             4
@@ -148,10 +154,6 @@ singleNote model note string fret class is_root =
                 ++ [ Svg.Attributes.class class
                    , Svg.Attributes.width <| String.fromFloat w
                    , Svg.Attributes.height <| String.fromFloat h
-
-                   -- , Svg.Attributes.rx "5"
-                   -- , Svg.Attributes.ry "5"
-                   -- , Svg.Attributes.r <| String.fromFloat <| stringDistance * 0.4
                    ]
             )
             []
@@ -199,7 +201,17 @@ drawScale model =
             NeckNotes.notesOnString model.tuning model.frets
 
         notesOnSingleString stringNotes string =
-            List.map (\( index, note ) -> singleNote model note string index (noteFill <| note) (note == model.root)) <| zip (List.range 0 model.frets) (List.map Notes.spnToPitch stringNotes)
+            List.map
+                (\( index, note ) ->
+                    singleNote model
+                        note
+                        string
+                        index
+                        (noteFill <| note)
+                        (note == model.root)
+                )
+            <|
+                zip (List.range 0 model.frets) (List.map Notes.spnToPitch stringNotes)
     in
     List.concatMap (\( index, notes_ ) -> notesOnSingleString notes_ index) <| zip (List.range 1 6) notes
 
@@ -245,6 +257,12 @@ doubleInlay model numFret =
 fretBoard : Model.Model -> Html Msg
 fretBoard model =
     let
+        x1 =
+            S.convert model.coos.fretScale 0
+
+        x2 =
+            S.convert model.coos.fretScale <| toFloat model.frets
+
         translateFretboard =
             transform <| "translate(" ++ String.fromFloat model.coos.translateX ++ "," ++ String.fromFloat model.coos.translateY ++ ")"
     in
@@ -253,11 +271,14 @@ fretBoard model =
         , height <| String.fromFloat model.coos.svgHeight
         ]
         [ g [ translateFretboard ]
-            [ g [ id "fretBoard" ]
+            [ g
+                [ id "fretBoard" ]
                 [ rect
-                    [ width <| String.fromFloat model.coos.svgWidth
+                    [ width <|
+                        String.fromFloat (x2 - x1)
                     , height <| String.fromFloat model.coos.neckHeight
                     , fill fretboardColor
+                    , x <| String.fromFloat x1
                     ]
                     []
                 ]
@@ -276,7 +297,6 @@ fretBoard model =
                     ++ doubleInlay model 24
                 )
             , g [ id "strings" ] (List.map (singleString model) <| List.range 1 6)
+            , g [ id "notes" ] (drawScale model)
             ]
-        , g [ translateFretboard ]
-            (drawScale model)
         ]

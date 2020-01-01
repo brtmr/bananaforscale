@@ -37,7 +37,7 @@ calculate vp frets drawScalefactor =
             neckHeight + 150
 
         translateX =
-            50.0
+            0
 
         translateY =
             50
@@ -55,16 +55,10 @@ calculate vp frets drawScalefactor =
             S.linear ( neckHeight, 0 ) ( 0.5, 6.5 )
 
         fretScale =
-            S.linear ( 0, fretDistance * toFloat (frets + 1) ) ( 0, toFloat frets )
+            S.linear ( 0, svgWidth ) ( -1, toFloat frets )
 
         fretWidth =
-            \n ->
-                case n of
-                    0 ->
-                        10
-
-                    _ ->
-                        S.convert fretScale (toFloat n) - S.convert fretScale (toFloat n - 1)
+            \n -> S.convert fretScale (toFloat n) - S.convert fretScale (toFloat n - 1)
     in
     { svgWidth = svgWidth
     , svgHeight = svgHeight
