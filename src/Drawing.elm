@@ -17,7 +17,7 @@ backgroundColor =
 
 
 fretboardColor =
-    "#321a0bff"
+    "#222"
 
 
 fretColor =
@@ -25,7 +25,7 @@ fretColor =
 
 
 stringColor =
-    "#ffccaaff"
+    "#ffffff"
 
 
 intervalRatio =
@@ -64,11 +64,14 @@ singleFret model fret =
 singleString : Model -> Int -> Svg msg
 singleString model nString =
     let
+        h =
+            3 - (0.4 * toFloat nString)
+
         yPos =
-            S.convert model.coos.stringScale (toFloat nString)
+            S.convert model.coos.stringScale (toFloat nString) - (h / 2)
     in
     rect
-        [ height "1.5"
+        [ height <| String.fromFloat h
         , width <| String.fromFloat model.coos.svgWidth
         , transform <| "translate(0," ++ String.fromFloat yPos ++ ")"
         , fill stringColor
@@ -192,10 +195,10 @@ inlay model numFret =
             (S.convert model.coos.fretScale <| toFloat numFret) - (0.5 * model.coos.fretWidth numFret)
     in
     Svg.circle
-        [ Svg.Attributes.r <| String.fromFloat (model.coos.neckHeight * 0.04)
+        [ Svg.Attributes.r <| String.fromFloat 7
         , Svg.Attributes.cx <| String.fromFloat x
-        , Svg.Attributes.cy <| String.fromFloat (-0.2 * model.coos.neckHeight)
-        , Svg.Attributes.fill "#666"
+        , Svg.Attributes.cy <| String.fromFloat -20
+        , Svg.Attributes.fill "#999"
         ]
         []
 
@@ -207,17 +210,17 @@ doubleInlay model numFret =
             (S.convert model.coos.fretScale <| toFloat numFret) - (0.5 * model.coos.fretWidth numFret)
     in
     [ Svg.circle
-        [ Svg.Attributes.r <| String.fromFloat (model.coos.neckHeight * 0.04)
+        [ Svg.Attributes.r <| String.fromFloat 7
         , Svg.Attributes.cx <| String.fromFloat x
-        , Svg.Attributes.cy <| String.fromFloat (-0.2 * model.coos.neckHeight)
-        , Svg.Attributes.fill "#666"
+        , Svg.Attributes.cy <| String.fromFloat -20
+        , Svg.Attributes.fill "#999"
         ]
         []
     , Svg.circle
-        [ Svg.Attributes.r <| String.fromFloat (model.coos.neckHeight * 0.04)
+        [ Svg.Attributes.r <| String.fromFloat 7
         , Svg.Attributes.cx <| String.fromFloat x
-        , Svg.Attributes.cy <| String.fromFloat (-0.33 * model.coos.neckHeight)
-        , Svg.Attributes.fill "#666"
+        , Svg.Attributes.cy <| String.fromFloat -38
+        , Svg.Attributes.fill "#999"
         ]
         []
     ]

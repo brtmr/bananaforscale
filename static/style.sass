@@ -1,22 +1,4 @@
 
-html, body
-  margin: 0
-  padding: 0
-  display: flex
-  flex-direction: column
-  background-color: #333
-  color: white
-  font-family: 'Roboto Slab', serif
-  text-align: right
-  height: 100%
-  width: 100%
-a
-  color: white
-
-div
-  box-sizing: border-box
-  padding: 10px
-
 $color1  : #a6cee3
 $color2  : #1f78b4
 $color3  : #b2df8a
@@ -30,26 +12,54 @@ $color10 : #6a3d9a
 $color11 : #ffff99
 $color12 : #b15928
 
+$bg-settings: #111
+$bg : #333
+
+
+
+html, body
+  margin: 0
+  padding: 0
+  display: flex
+  flex-direction: column
+  background: $bg
+  color: white
+  font-family: 'Roboto Slab', serif
+  text-align: right
+  height: 100%
+  width: 100%
+  flex-shrink: 0
+a
+  color: white
+
+div
+  box-sizing: border-box
+  padding: 10px
+
+
 
 #settings
-  font-size: 1.5em
+  top: 0px
+  min-height: 5px
   display: flex
   flex-wrap: wrap
-  justify-content: flex-end
+  justify-content: flex-start
+  flex-align: center
   width: 100%
-  min-height: 5em
+  background: $bg-settings
+  margin: 0px
+  padding: 0px
+  flex-shrink: 0
 
-  button
-    margin: 5px
 
   .setting
-    min-height: 40px
-    background-color: #444
-    border: 1px solid #444
-    margin: 4px
+    display: flex
+    align-items: center
+    margin: 10px
+    padding: 0px
     
   select, button
-    font-size: 24px
+    margin: 2px
     font-family: 'Roboto Slab', serif
 
 #scale
@@ -58,62 +68,62 @@ $color12 : #b15928
   flex-wrap: wrap
   justify-content: flex-end
   width: 100%
-  font-size: 1.5em
-  min-height: 5em
+  background: $bg-settings
+  flex-shrink: 0
 
   %note
+      width: 150px
+      flex-grow: 1
       display: flex
       justify-content: center
       align-items: center
       color: black
-      min-width: 5em
-      margin: 4px
       text-align: center
-      // border:1px solid #666
-      font-weight: bold
 
   .nonote
     @extend %note
-    background-color: #333
     color: white
   .note1
     @extend %note
-    background-color: $color1
+    background: $color1
   .note2
     @extend %note
-    background-color: $color2
+    background: $color2
   .note3
     @extend %note
-    background-color: $color3
+    background: $color3
   .note4
     @extend %note
-    background-color: $color4
+    background: $color4
   .note5
     @extend %note
-    background-color: $color5
+    background: $color5
   .note6
     @extend %note
-    background-color: $color6
+    background: $color6
   .note7
     @extend %note
-    background-color: $color7
+    background: $color7
   .note8
     @extend %note
-    background-color: $color8
+    background: $color8
   .note9
     @extend %note
-    background-color: $color9
+    background: $color9
   .note10
     @extend %note
-    background-color: $color10
+    background: $color10
   .note11
     @extend %note
-    background-color: $color11
+    background: $color11
   .note12
     @extend %note
-    background-color: $color12
+    background: $color12
 
 #content
+  display: flex
+  flex-direction: column
+  justify-content: center
   flex: 1 0 auto
 
 #footer
@@ -125,7 +135,18 @@ $color12 : #b15928
   background-repeat: no-repeat
   align-items: center
   justify-content: center
-  background-color: black
+  background: $bg-settings
+
+
+  .title
+    margin-left: 10px
+    margin-right: 10px
+    display: flex
+    align-items: center
+
+    h1
+      text-decoration: none
+      display: inline-block
 
 svg
   margin-top: 40px

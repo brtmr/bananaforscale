@@ -267,14 +267,15 @@ body m =
         [ fretBoard m
         ]
     , div [ id "footer" ]
-        [ div [] [ h1 [] [ Html.text "Banana for Scale" ] ]
-        , div []
+        [ div []
             [ Html.text "Source "
             , a [ href "https://github.com/brtmr/bananaforscale" ] [ Html.text "here" ]
             ]
         , a
-            [ href "https://github.com/brtmr/bananaforscale" ]
-            [ Html.img [ src "banana.png", height 50 ] [] ]
+            [ href "https://github.com/brtmr/bananaforscale", class "title" ]
+            [ Html.img [ src "banana.png", height 50 ] []
+            , h1 [] [ Html.text "for scale" ]
+            ]
         , div []
             [ Html.text "Made with "
             , a [ href "https://elm-lang.org" ] [ Html.text "elm" ]

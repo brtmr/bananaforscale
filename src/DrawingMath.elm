@@ -34,13 +34,13 @@ calculate vp frets drawScalefactor =
                     v.viewport.width - 40
 
         svgHeight =
-            drawScalefactor * 100
+            neckHeight + 150
 
         translateX =
             50.0
 
         translateY =
-            0
+            50
 
         fretDistance =
             (svgWidth - translateX) / toFloat (frets + 1)
@@ -61,7 +61,7 @@ calculate vp frets drawScalefactor =
             \n ->
                 case n of
                     0 ->
-                        50
+                        10
 
                     _ ->
                         S.convert fretScale (toFloat n) - S.convert fretScale (toFloat n - 1)
