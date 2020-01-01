@@ -6,7 +6,8 @@ clean:
 
 banana: css
 	cp -v static/index.html build/index.html
-	cp -v static/banana.png build/banana.png
+	cp -v static/*.png build/
+	cp -v static/*.ico build/
 	elm make src/Banana.elm --output build/banana.js
 
 css:
