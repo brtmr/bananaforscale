@@ -5,7 +5,6 @@ and display the Svg in width, while being able to scale the headstock
 -}
 
 import Browser.Dom exposing (Viewport)
-import HeadStock
 import Scale as S
 
 
@@ -23,8 +22,8 @@ type alias SvgCoordinates =
     }
 
 
-calculate : Maybe Viewport -> Int -> Float -> Bool -> SvgCoordinates
-calculate vp frets drawScalefactor drawHeadstock =
+calculate : Maybe Viewport -> Int -> Float -> SvgCoordinates
+calculate vp frets drawScalefactor =
     let
         svgWidth =
             case vp of
@@ -35,23 +34,19 @@ calculate vp frets drawScalefactor drawHeadstock =
                     v.viewport.width - 40
 
         svgHeight =
-            drawScalefactor * HeadStock.headstockHeightUnscaled
+            drawScalefactor * 100
 
         translateX =
-            if drawHeadstock then
-                drawScalefactor * HeadStock.nutXUnscaled
-
-            else
-                50.0
+            50.0
 
         translateY =
-            drawScalefactor * HeadStock.nutYUnscaled
+            0
 
         fretDistance =
             (svgWidth - translateX) / toFloat (frets + 1)
 
         neckHeight =
-            drawScalefactor * HeadStock.nutHeightUnscaled
+            drawScalefactor * 50
 
         stringDistance =
             neckHeight / 6.0
@@ -61,6 +56,15 @@ calculate vp frets drawScalefactor drawHeadstock =
 
         fretScale =
             S.linear ( 0, fretDistance * toFloat (frets + 1) ) ( 0, toFloat frets )
+
+        fretWidth =
+            \n ->
+                case n of
+                    0 ->
+                        50
+
+                    _ ->
+                        S.convert fretScale (toFloat n) - S.convert fretScale (toFloat n - 1)
     in
     { svgWidth = svgWidth
     , svgHeight = svgHeight
@@ -69,7 +73,7 @@ calculate vp frets drawScalefactor drawHeadstock =
     , stringScale = stringScale
     , fretScale = fretScale
     , fretDistance = fretDistance
-    , fretWidth = \n -> S.convert fretScale (toFloat n) - S.convert fretScale (toFloat n - 1)
     , stringDistance = stringDistance
     , neckHeight = neckHeight
+    , fretWidth = fretWidth
     }

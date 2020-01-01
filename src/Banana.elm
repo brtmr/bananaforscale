@@ -40,7 +40,7 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         ViewportChange newViewport ->
-            ( recalculate { model | viewport = Just newViewport, drawHeadstock = True }, Cmd.none )
+            ( recalculate { model | viewport = Just newViewport }, Cmd.none )
 
         WindowResize ->
             ( model, Task.perform ViewportChange getViewport )
@@ -225,11 +225,7 @@ body m =
         svgHeight =
             150.0
     in
-    [ div []
-        [ h1 []
-            [ Html.text "Banana for Scale" ]
-        ]
-    , div
+    [ div
         [ id "settings" ]
         [ div
             [ class "setting" ]
@@ -265,13 +261,14 @@ body m =
             ]
         ]
     , div
-        [ id "scale" ]
+        [ class "setting", id "scale" ]
         (scaleDisplay m)
     , div [ id "content" ]
         [ fretBoard m
         ]
     , div [ id "footer" ]
-        [ div []
+        [ div [] [ h1 [] [ Html.text "Banana for Scale" ] ]
+        , div []
             [ Html.text "Source "
             , a [ href "https://github.com/brtmr/bananaforscale" ] [ Html.text "here" ]
             ]
@@ -295,7 +292,6 @@ view model =
 -- Subscriptions
 
 
-subscriptions : Model -> Sub Msg
 subscriptions _ =
     onResize (\_ _ -> WindowResize)
 

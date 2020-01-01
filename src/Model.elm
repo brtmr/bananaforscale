@@ -3,7 +3,6 @@ module Model exposing (Flags, Model, Msg(..), recalculate, selectEntireScale, st
 import Browser.Dom exposing (Viewport)
 import Dict
 import DrawingMath
-import HeadStock
 import NeckNotes
 import Notes
 
@@ -17,7 +16,6 @@ type alias Model =
     , scale : Notes.Scale
     , root : Notes.Note
     , tuning : NeckNotes.Tuning
-    , drawHeadstock : Bool
     , drawScalefactor : Float
     , frets : Int
     , selectedNotes : SelectedNotes
@@ -28,21 +26,12 @@ type alias Model =
 recalculate : Model -> Model
 recalculate m =
     let
-        drawHeadstock =
-            case m.viewport of
-                Nothing ->
-                    False
-
-                Just v ->
-                    (v.viewport.width - (HeadStock.nutXUnscaled * m.drawScalefactor)) / toFloat m.frets > 60
-
         newcoos =
             DrawingMath.calculate m.viewport
                 m.frets
                 m.drawScalefactor
-                drawHeadstock
     in
-    { m | coos = newcoos, drawHeadstock = drawHeadstock }
+    { m | coos = newcoos }
 
 
 startModel : Model
@@ -51,12 +40,11 @@ startModel =
     , scale = Notes.majorScale
     , root = Notes.C
     , tuning = NeckNotes.standardTuning
-    , drawHeadstock = False
     , drawScalefactor = 5
     , frets = 16
     , selectedNotes =
         selectEntireScale Notes.C Notes.majorScale
-    , coos = DrawingMath.calculate Nothing 16 5 False
+    , coos = DrawingMath.calculate Nothing 16 5
     }
 
 

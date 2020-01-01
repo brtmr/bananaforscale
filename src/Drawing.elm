@@ -2,7 +2,6 @@ module Drawing exposing (fretBoard, getNoteCssClass, singleFret, singleString)
 
 import Dict exposing (Dict)
 import DrawingMath
-import HeadStock
 import Html exposing (..)
 import List.Extra exposing (zip)
 import Model exposing (..)
@@ -259,11 +258,6 @@ fretBoard model =
                 )
             , g [ id "strings" ] (List.map (singleString model) <| List.range 1 6)
             ]
-        , if model.drawHeadstock then
-            HeadStock.headStockGroup model.drawScalefactor
-
-          else
-            Svg.g [] []
         , g [ translateFretboard ]
             (drawScale model)
         ]
