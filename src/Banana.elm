@@ -224,11 +224,21 @@ body m =
 
         svgHeight =
             150.0
+
+        mobile =
+            vpWidth < 1000
+
+        klass cls =
+            if mobile then
+                class <| cls ++ " mobile"
+
+            else
+                class cls
     in
     [ div
         [ id "settings" ]
         [ div
-            [ class "setting" ]
+            [ klass "setting" ]
             [ span
                 []
                 [ Html.text <| String.fromInt m.frets ++ " Frets" ]
@@ -239,14 +249,14 @@ body m =
                 [ Html.text "+" ]
             ]
         , div
-            [ class "setting" ]
+            [ klass "setting" ]
             [ span
                 []
                 [ text "Root:  " ]
             , select [ id "rootselect", onInput RootSelected ] noteOptions
             ]
         , div
-            [ class "setting" ]
+            [ klass "setting" ]
             [ span
                 []
                 [ text "Scale:  " ]
@@ -261,7 +271,7 @@ body m =
             ]
         ]
     , div
-        [ class "setting", id "scale" ]
+        [ klass "setting", id "scale" ]
         (scaleDisplay m)
     , div [ id "content" ]
         [ fretBoard m
