@@ -33,24 +33,24 @@ intervalRatio =
     1.059463
 
 
-singleFret : DrawingMath.SvgCoordinates -> Float -> Int -> Svg msg
-singleFret coos fretX fretNum =
+singleFret : Model -> Int -> Svg msg
+singleFret model fret =
     let
-        halfFretBack =
-            String.fromFloat <| (coos.fretDistance / -2.0) - 10
+        x =
+            S.convert model.coos.fretScale <| toFloat fret
 
-        neckHeight =
-            String.fromFloat <| coos.neckHeight
+        halfFretBack =
+            String.fromFloat <| -0.5 * model.coos.fretWidth fret
 
         textHeight =
-            String.fromFloat <| coos.neckHeight + 35
+            String.fromFloat <| model.coos.neckHeight + 35
     in
     Svg.g
-        [ transform <| "translate(" ++ String.fromFloat fretX ++ ",0)"
+        [ transform <| "translate(" ++ String.fromFloat x ++ ",0)"
         ]
         [ rect
             [ width "3"
-            , height neckHeight
+            , height <| String.fromFloat model.coos.neckHeight
             , fill fretColor
             ]
             []
@@ -58,7 +58,7 @@ singleFret coos fretX fretNum =
             [ Svg.Attributes.transform <| "translate(" ++ halfFretBack ++ ", " ++ textHeight ++ ")"
             , Svg.Attributes.fill "#666"
             ]
-            [ Svg.text <| String.fromInt fretNum ]
+            [ Svg.text <| String.fromInt fret ]
         ]
 
 
@@ -130,9 +130,9 @@ singleNote model note string fret class is_root =
                 ++ [ Svg.Attributes.class class
                    , Svg.Attributes.width <| String.fromFloat w
                    , Svg.Attributes.height <| String.fromFloat h
-                   , Svg.Attributes.rx "5"
-                   , Svg.Attributes.ry "5"
 
+                   -- , Svg.Attributes.rx "5"
+                   -- , Svg.Attributes.ry "5"
                    -- , Svg.Attributes.r <| String.fromFloat <| stringDistance * 0.4
                    ]
             )
@@ -186,30 +186,38 @@ drawScale model =
     List.concatMap (\( index, notes_ ) -> notesOnSingleString notes_ index) <| zip (List.range 1 6) notes
 
 
-inlay : Float -> Float -> Int -> Svg msg
-inlay fretDistance neckHeight numFret =
+inlay : Model -> Int -> Svg msg
+inlay model numFret =
+    let
+        x =
+            (S.convert model.coos.fretScale <| toFloat numFret) - (0.5 * model.coos.fretWidth numFret)
+    in
     Svg.circle
-        [ Svg.Attributes.r <| String.fromFloat (neckHeight * 0.04)
-        , Svg.Attributes.cx <| String.fromFloat (((numFret |> toFloat) - 0.5) * fretDistance)
-        , Svg.Attributes.cy <| String.fromFloat (-0.2 * neckHeight)
+        [ Svg.Attributes.r <| String.fromFloat (model.coos.neckHeight * 0.04)
+        , Svg.Attributes.cx <| String.fromFloat x
+        , Svg.Attributes.cy <| String.fromFloat (-0.2 * model.coos.neckHeight)
         , Svg.Attributes.fill "#666"
         ]
         []
 
 
-doubleInlay : Float -> Float -> Int -> List (Svg msg)
-doubleInlay fretDistance neckHeight numFret =
+doubleInlay : Model -> Int -> List (Svg msg)
+doubleInlay model numFret =
+    let
+        x =
+            (S.convert model.coos.fretScale <| toFloat numFret) - (0.5 * model.coos.fretWidth numFret)
+    in
     [ Svg.circle
-        [ Svg.Attributes.r <| String.fromFloat (neckHeight * 0.04)
-        , Svg.Attributes.cx <| String.fromFloat (((numFret |> toFloat) - 0.5) * fretDistance)
-        , Svg.Attributes.cy <| String.fromFloat (-0.2 * neckHeight)
+        [ Svg.Attributes.r <| String.fromFloat (model.coos.neckHeight * 0.04)
+        , Svg.Attributes.cx <| String.fromFloat x
+        , Svg.Attributes.cy <| String.fromFloat (-0.2 * model.coos.neckHeight)
         , Svg.Attributes.fill "#666"
         ]
         []
     , Svg.circle
-        [ Svg.Attributes.r <| String.fromFloat (neckHeight * 0.04)
-        , Svg.Attributes.cx <| String.fromFloat (((numFret |> toFloat) - 0.5) * fretDistance)
-        , Svg.Attributes.cy <| String.fromFloat (-0.33 * neckHeight)
+        [ Svg.Attributes.r <| String.fromFloat (model.coos.neckHeight * 0.04)
+        , Svg.Attributes.cx <| String.fromFloat x
+        , Svg.Attributes.cy <| String.fromFloat (-0.33 * model.coos.neckHeight)
         , Svg.Attributes.fill "#666"
         ]
         []
@@ -219,9 +227,6 @@ doubleInlay fretDistance neckHeight numFret =
 fretBoard : Model.Model -> Html Msg
 fretBoard model =
     let
-        numberedFrets =
-            zip (List.range 0 model.frets) (List.map (toFloat >> S.convert model.coos.fretScale) (List.range 0 model.frets))
-
         translateFretboard =
             transform <| "translate(" ++ String.fromFloat model.coos.translateX ++ "," ++ String.fromFloat model.coos.translateY ++ ")"
     in
@@ -238,19 +243,19 @@ fretBoard model =
                     ]
                     []
                 ]
-            , g [ id "frets" ] (List.map (\( n, pos ) -> singleFret model.coos pos n) numberedFrets)
+            , g [ id "frets" ] (List.map (singleFret model) <| List.range 0 model.frets)
             , g [ id "inlayDots" ]
-                ([ inlay model.coos.fretDistance model.coos.neckHeight 3
-                 , inlay model.coos.fretDistance model.coos.neckHeight 5
-                 , inlay model.coos.fretDistance model.coos.neckHeight 7
-                 , inlay model.coos.fretDistance model.coos.neckHeight 9
-                 , inlay model.coos.fretDistance model.coos.neckHeight 15
-                 , inlay model.coos.fretDistance model.coos.neckHeight 17
-                 , inlay model.coos.fretDistance model.coos.neckHeight 19
-                 , inlay model.coos.fretDistance model.coos.neckHeight 21
+                ([ inlay model 3
+                 , inlay model 5
+                 , inlay model 7
+                 , inlay model 9
+                 , inlay model 15
+                 , inlay model 17
+                 , inlay model 19
+                 , inlay model 21
                  ]
-                    ++ doubleInlay model.coos.fretDistance model.coos.neckHeight 12
-                    ++ doubleInlay model.coos.fretDistance model.coos.neckHeight 24
+                    ++ doubleInlay model 12
+                    ++ doubleInlay model 24
                 )
             , g [ id "strings" ] (List.map (singleString model) <| List.range 1 6)
             ]
