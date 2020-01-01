@@ -40,34 +40,24 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         ViewportChange newViewport ->
-            let
-                intermediateModel =
-                    { model | viewport = Just newViewport, drawHeadstock = True }
-
-                coos =
-                    DrawingMath.calculate intermediateModel
-
-                newModel =
-                    DrawingMath.setHeadStockDraw intermediateModel
-            in
-            ( newModel, Cmd.none )
+            ( recalculate { model | viewport = Just newViewport }, Cmd.none )
 
         WindowResize ->
             ( model, Task.perform ViewportChange getViewport )
 
         NumFretsInc ->
             if model.frets < 24 then
-                ( DrawingMath.setHeadStockDraw { model | frets = model.frets + 1 }, Cmd.none )
+                ( recalculate { model | frets = model.frets + 1 }, Cmd.none )
 
             else
-                ( DrawingMath.setHeadStockDraw model, Cmd.none )
+                ( recalculate model, Cmd.none )
 
         NumFretsDec ->
             if model.frets > 5 then
-                ( DrawingMath.setHeadStockDraw { model | frets = model.frets - 1 }, Cmd.none )
+                ( recalculate { model | frets = model.frets - 1 }, Cmd.none )
 
             else
-                ( DrawingMath.setHeadStockDraw model, Cmd.none )
+                ( recalculate model, Cmd.none )
 
         ScaleSelected s ->
             case s of
@@ -255,15 +245,21 @@ body m =
 
         svgHeight =
             150.0
+
+        mobile =
+            vpWidth < 1000
+
+        klass cls =
+            if mobile then
+                class <| cls ++ " mobile"
+
+            else
+                class cls
     in
-    [ div []
-        [ h1 []
-            [ Html.text "Banana for Scale" ]
-        ]
-    , div
+    [ div
         [ id "settings" ]
         [ div
-            [ class "setting" ]
+            [ klass "setting" ]
             [ span
                 []
                 [ Html.text <| String.fromInt m.frets ++ " Frets" ]
@@ -274,14 +270,14 @@ body m =
                 [ Html.text "+" ]
             ]
         , div
-            [ class "setting" ]
+            [ klass "setting" ]
             [ span
                 []
                 [ text "Root:  " ]
             , select [ id "rootselect", onInput RootSelected ] noteOptions
             ]
         , div
-            [ class "setting" ]
+            [ klass "setting" ]
             [ span
                 []
                 [ text "Scale:  " ]
@@ -303,7 +299,7 @@ body m =
             ]
         ]
     , div
-        [ id "scale" ]
+        [ klass "setting", id "scale" ]
         (scaleDisplay m)
     , div [ id "content" ]
         [ fretBoard m
@@ -314,8 +310,10 @@ body m =
             , a [ href "https://github.com/brtmr/bananaforscale" ] [ Html.text "here" ]
             ]
         , a
-            [ href "https://github.com/brtmr/bananaforscale" ]
-            [ Html.img [ src "banana.png", height 50 ] [] ]
+            [ href "https://github.com/brtmr/bananaforscale", class "title" ]
+            [ Html.img [ src "banana.png", height 50 ] []
+            , h1 [] [ Html.text "for scale" ]
+            ]
         , div []
             [ Html.text "Made with "
             , a [ href "https://elm-lang.org" ] [ Html.text "elm" ]
@@ -333,7 +331,6 @@ view model =
 -- Subscriptions
 
 
-subscriptions : Model -> Sub Msg
 subscriptions _ =
     onResize (\_ _ -> WindowResize)
 

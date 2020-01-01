@@ -1,11 +1,11 @@
-module DrawingMath exposing (SvgCoordinates, calculate, setHeadStockDraw)
+module DrawingMath exposing (SvgCoordinates, calculate)
 
 {-| Functions and types for calculating widths and ratios to dynamically scale
 and display the Svg in width, while being able to scale the headstock
 -}
 
-import HeadStock
-import Model exposing (Model)
+import Browser.Dom exposing (Viewport)
+import Scale as S
 
 
 type alias SvgCoordinates =
@@ -13,69 +13,67 @@ type alias SvgCoordinates =
     , svgHeight : Float
     , translateX : Float
     , translateY : Float
+    , fretScale : S.ContinuousScale Float
+    , stringScale : S.ContinuousScale Float
     , fretDistance : Float
-    , fretPositions : List Float
+    , stringDistance : Float
+    , fretWidth : Int -> Float
     , neckHeight : Float
     }
 
 
-calculate : Model -> SvgCoordinates
-calculate m =
+calculate : Maybe Viewport -> Int -> Float -> SvgCoordinates
+calculate vp frets drawScalefactor =
     let
         svgWidth =
-            case m.viewport of
+            case vp of
                 Nothing ->
                     700.0
 
-                Just vp ->
-                    vp.viewport.width - 40
+                Just v ->
+                    v.viewport.width - 40
 
         svgHeight =
-            m.drawScalefactor * HeadStock.headstockHeightUnscaled
+            neckHeight + 150
 
         translateX =
-            if m.drawHeadstock then
-                m.drawScalefactor * HeadStock.nutXUnscaled
-
-            else
-                50.0
+            50.0
 
         translateY =
-            m.drawScalefactor * HeadStock.nutYUnscaled
+            50
 
         fretDistance =
-            (svgWidth - translateX) / toFloat (m.frets + 1)
-
-        fretPositions =
-            List.map (\n -> toFloat n * fretDistance) <| List.range 0 m.frets
+            (svgWidth - translateX) / toFloat (frets + 1)
 
         neckHeight =
-            m.drawScalefactor * HeadStock.nutHeightUnscaled
+            drawScalefactor * 50
+
+        stringDistance =
+            neckHeight / 6.0
+
+        stringScale =
+            S.linear ( neckHeight, 0 ) ( 0.5, 6.5 )
+
+        fretScale =
+            S.linear ( 0, fretDistance * toFloat (frets + 1) ) ( 0, toFloat frets )
+
+        fretWidth =
+            \n ->
+                case n of
+                    0 ->
+                        10
+
+                    _ ->
+                        S.convert fretScale (toFloat n) - S.convert fretScale (toFloat n - 1)
     in
     { svgWidth = svgWidth
     , svgHeight = svgHeight
     , translateX = translateX
     , translateY = translateY
+    , stringScale = stringScale
+    , fretScale = fretScale
     , fretDistance = fretDistance
-    , fretPositions = fretPositions
+    , stringDistance = stringDistance
     , neckHeight = neckHeight
+    , fretWidth = fretWidth
     }
-
-
-setHeadStockDraw : Model -> Model
-setHeadStockDraw model =
-    let
-        intermediateModel =
-            { model | drawHeadstock = True }
-
-        coos =
-            calculate intermediateModel
-
-        newModel =
-            if coos.fretDistance > 60 then
-                { intermediateModel | drawHeadstock = True }
-
-            else
-                { intermediateModel | drawHeadstock = False }
-    in
-    newModel

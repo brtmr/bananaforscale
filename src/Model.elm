@@ -1,7 +1,8 @@
-module Model exposing (Flags, Model, Msg(..), selectEntireScale, startModel, switchRoot, switchScale)
+module Model exposing (Flags, Model, Msg(..), recalculate, selectEntireScale, startModel, switchRoot, switchScale)
 
 import Browser.Dom exposing (Viewport)
 import Dict
+import DrawingMath
 import NeckNotes
 import Notes
 
@@ -15,11 +16,22 @@ type alias Model =
     , scale : Notes.Scale
     , root : Notes.Note
     , tuning : NeckNotes.Tuning
-    , drawHeadstock : Bool
     , drawScalefactor : Float
     , frets : Int
     , selectedNotes : SelectedNotes
+    , coos : DrawingMath.SvgCoordinates
     }
+
+
+recalculate : Model -> Model
+recalculate m =
+    let
+        newcoos =
+            DrawingMath.calculate m.viewport
+                m.frets
+                m.drawScalefactor
+    in
+    { m | coos = newcoos }
 
 
 startModel : Model
@@ -28,11 +40,11 @@ startModel =
     , scale = Notes.majorScale
     , root = Notes.C
     , tuning = NeckNotes.standardTuning
-    , drawHeadstock = True
     , drawScalefactor = 5
     , frets = 16
     , selectedNotes =
         selectEntireScale Notes.C Notes.majorScale
+    , coos = DrawingMath.calculate Nothing 16 5
     }
 
 
