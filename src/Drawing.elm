@@ -55,7 +55,7 @@ singleFret model fret =
             []
         , Svg.text_
             [ Svg.Attributes.transform <| "translate(" ++ halfFretBack ++ ", " ++ textHeight ++ ")"
-            , Svg.Attributes.fill "#666"
+            , Svg.Attributes.fill "#999"
             ]
             [ Svg.text <| String.fromInt fret ]
         ]
@@ -65,7 +65,7 @@ singleString : Model -> Int -> Svg msg
 singleString model nString =
     let
         h =
-            3 - (0.4 * toFloat nString)
+            1
 
         yPos =
             S.convert model.coos.stringScale (toFloat nString) - (h / 2)
@@ -83,13 +83,25 @@ singleNote : Model -> Notes.Note -> Int -> Int -> String -> Bool -> Svg msg
 singleNote model note string fret class is_root =
     let
         w =
-            model.coos.fretWidth fret * 0.8
+            if not is_root then
+                model.coos.fretWidth fret * 0.8
+
+            else
+                model.coos.fretWidth fret * 0.8 - 6
 
         yPos =
-            (S.convert model.coos.stringScale <| toFloat string) - 0.4 * model.coos.stringDistance
+            if not is_root then
+                (S.convert model.coos.stringScale <| toFloat string) - 0.5 * model.coos.stringDistance
+
+            else
+                (S.convert model.coos.stringScale <| toFloat string) - 0.5 * model.coos.stringDistance + 3
 
         xPos =
-            (S.convert model.coos.fretScale <| toFloat (fret - 1)) + (0.2 * w)
+            if not is_root then
+                (S.convert model.coos.fretScale <| toFloat (fret - 1)) + (0.15 * model.coos.fretWidth fret)
+
+            else
+                (S.convert model.coos.fretScale <| toFloat (fret - 1)) + (0.15 * model.coos.fretWidth fret) + 3
 
         root_class =
             if is_root then
@@ -112,7 +124,11 @@ singleNote model note string fret class is_root =
             String.fromFloat xPos
 
         h =
-            model.coos.stringDistance * 0.8
+            if not is_root then
+                model.coos.stringDistance
+
+            else
+                model.coos.stringDistance - 6
 
         textTranslateY =
             model.coos.stringDistance * 0.7
