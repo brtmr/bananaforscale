@@ -79,6 +79,27 @@ update msg model =
                 "bbKing" ->
                     ( Model.switchScale model Notes.bbKingScale, Cmd.none )
 
+                "harmonicMajor" ->
+                    ( Model.switchScale model Notes.harmonicMajorScale, Cmd.none )
+
+                "harmonicMinor" ->
+                    ( Model.switchScale model Notes.harmonicMinorScale, Cmd.none )
+
+                "dorian" ->
+                    ( Model.switchScale model Notes.dorianScale, Cmd.none )
+
+                "phrygian" ->
+                    ( Model.switchScale model Notes.phrygianScale, Cmd.none )
+
+                "lydian" ->
+                    ( Model.switchScale model Notes.lydianScale, Cmd.none )
+
+                "mixolydian" ->
+                    ( Model.switchScale model Notes.mixolydianScale, Cmd.none )
+
+                "locrian" ->
+                    ( Model.switchScale model Notes.locrianScale, Cmd.none )
+
                 _ ->
                     ( Model.switchScale model Notes.majorScale, Cmd.none )
 
@@ -261,12 +282,19 @@ body m =
                 []
                 [ text "Scale:  " ]
             , select [ id "scaleselect", onInput ScaleSelected ]
-                [ option [ value "major" ] [ text "Major" ]
+                [ option [ value "major" ] [ text "Major (Ionian)" ]
                 , option [ value "majorPentatonic" ] [ text "Major Pentatonic" ]
-                , option [ value "minor" ] [ text "Minor" ]
+                , option [ value "minor" ] [ text "Minor (Aeolian)" ]
                 , option [ value "minorPentatonic" ] [ text "Minor Pentatonic" ]
                 , option [ value "blues" ] [ text "Blues" ]
                 , option [ value "bbKing" ] [ text "B.B. King" ]
+                , option [ value "harmonicMajor" ] [ text "Harmonic Major" ]
+                , option [ value "harmonicMinor" ] [ text "Harmonic Minor" ]
+                , option [ value "dorian" ] [ text "Dorian" ]
+                , option [ value "phrygian" ] [ text "Phrygian" ]
+                , option [ value "lydian" ] [ text "Lydian" ]
+                , option [ value "mixolydian" ] [ text "Mixolydian" ]
+                , option [ value "locrian" ] [ text "Locrian" ]
                 ]
             ]
         ]
