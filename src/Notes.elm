@@ -1,4 +1,4 @@
-module Notes exposing (Note(..), NoteInScale, NoteName, SPN(..), Scale, ScaleStep(..), bbKingScale, bluesScale, harmonicMajorScale, harmonicMinorScale, dorianScale, phrygianScale, lydianScale, mixolydianScale, locrianScale, contextualizeNote, filterFirst, flat, intToNote, intervalName, intervalShortName, majorPentatonicScale, majorScale, makeScale, makeScaleWithDegrees, makeStep, midiToOctave, midiToPitch, midiToSPN, minorPentatonicScale, minorScale, noteName, noteToInt, scaleDegree, scaleDegreeAsInt, scaleStepAsSemitones, sharp, spnToMidi, spnToPitch, toNote)
+module Notes exposing (Note(..), NoteInScale, NoteName, SPN(..), Scale, ScaleStep(..), bbKingScale, bluesScale, contextualizeNote, dorianScale, filterFirst, flat, harmonicMajorScale, harmonicMinorScale, intToNote, intervalName, intervalShortName, locrianScale, lydianScale, majorPentatonicScale, majorScale, makeScale, makeScaleWithDegrees, makeStep, midiToOctave, midiToPitch, midiToSPN, minorPentatonicScale, minorScale, mixolydianScale, noteName, noteToInt, phrygianScale, scaleDegree, scaleDegreeAsInt, scaleStepAsSemitones, sharp, spnToMidi, spnToPitch, toNote)
 
 import Dict exposing (..)
 import Maybe
@@ -59,7 +59,7 @@ noteName n =
             ( "D", "D" )
 
         DSharp ->
-            ( "E♭", "D♯" )
+            ( "D♯", "E♭" )
 
         E ->
             ( "E", "E" )
@@ -74,13 +74,13 @@ noteName n =
             ( "G", "G" )
 
         GSharp ->
-            ( "A♭", "G♯" )
+            ( "G♯", "A♭" )
 
         A ->
             ( "A", "A" )
 
         ASharp ->
-            ( "B♭", "A♯" )
+            ( "A♯", "B♭" )
 
         B ->
             ( "B", "B" )
@@ -496,6 +496,7 @@ bbKingScale =
     , WholeAndAHalf
     ]
 
+
 harmonicMajorScale : Scale
 harmonicMajorScale =
     [ Whole
@@ -506,6 +507,7 @@ harmonicMajorScale =
     , WholeAndAHalf
     , Half
     ]
+
 
 harmonicMinorScale : Scale
 harmonicMinorScale =
@@ -518,6 +520,7 @@ harmonicMinorScale =
     , Half
     ]
 
+
 dorianScale : Scale
 dorianScale =
     [ Whole
@@ -528,6 +531,7 @@ dorianScale =
     , Half
     , Whole
     ]
+
 
 phrygianScale : Scale
 phrygianScale =
@@ -540,6 +544,7 @@ phrygianScale =
     , Whole
     ]
 
+
 lydianScale : Scale
 lydianScale =
     [ Whole
@@ -550,6 +555,7 @@ lydianScale =
     , Whole
     , Half
     ]
+
 
 mixolydianScale : Scale
 mixolydianScale =
@@ -562,6 +568,7 @@ mixolydianScale =
     , Whole
     ]
 
+
 locrianScale : Scale
 locrianScale =
     [ Half
@@ -572,6 +579,7 @@ locrianScale =
     , Whole
     , Whole
     ]
+
 
 makeStep : Note -> ScaleStep -> Note
 makeStep n s =
